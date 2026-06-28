@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { ArrowLeft, BookOpen, Clock, Type, Play, Pause, Volume2, Sparkles, Heart, MessageCircle, Bookmark, Share2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Post, User } from '../types';
@@ -27,7 +28,7 @@ export function ImmersivePostReader({
   onToggleSave
 }: ImmersivePostReaderProps) {
   const [theme, setTheme] = useState<Theme>(() => {
-    return (localStorage.getItem('immersive_reader_theme') as Theme) || 'midnight';
+    return (localStorage.getItem('immersive_reader_theme') as Theme) || 'light';
   });
   const [fontSize, setFontSize] = useState<FontSize>(() => {
     return (localStorage.getItem('immersive_reader_fontsize') as FontSize) || 'lg';
@@ -185,7 +186,7 @@ export function ImmersivePostReader({
 
   const style = themeStyles[theme];
 
-  return (
+  return createPortal(
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }}
@@ -444,6 +445,7 @@ export function ImmersivePostReader({
         </div>
 
       </motion.div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }
