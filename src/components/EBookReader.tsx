@@ -540,6 +540,30 @@ export function EBookReader({ ebook: propEBook, onClose, onOpenCreator, isPurcha
     }
   };
 
+  const openPdfInNewTab = () => {
+    if (!ebook.uploadedPdf) return;
+    try {
+      if (ebook.uploadedPdf.startsWith('data:application/pdf;base64,')) {
+        const base64Parts = ebook.uploadedPdf.split(',');
+        const base64Data = base64Parts[1];
+        const binaryString = window.atob(base64Data);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+          bytes[i] = binaryString.charCodeAt(i);
+        }
+        const blob = new Blob([bytes], { type: 'application/pdf' });
+        const blobUrl = URL.createObjectURL(blob);
+        window.open(blobUrl, '_blank');
+      } else {
+        window.open(ebook.uploadedPdf, '_blank');
+      }
+    } catch (err) {
+      console.error("Erro ao abrir PDF:", err);
+      window.open(ebook.uploadedPdf, '_blank');
+    }
+  };
+
   const scrollToParagraph = (pIndex: number) => {
     const el = document.getElementById(`p-${pIndex}`);
     if (el) {
@@ -1054,7 +1078,14 @@ export function EBookReader({ ebook: propEBook, onClose, onOpenCreator, isPurcha
                       
                       {ebook.uploadedPdf && (
                         <button
-                          onClick={() => setShowFullscreenPdf(true)}
+                          onClick={() => {
+                            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                            if (isMobile) {
+                              openPdfInNewTab();
+                            } else {
+                              setShowFullscreenPdf(true);
+                            }
+                          }}
                           className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-full transition-all shadow-lg shadow-purple-500/10 cursor-pointer"
                         >
                           <Eye className="w-4 h-4" />
@@ -1071,11 +1102,27 @@ export function EBookReader({ ebook: propEBook, onClose, onOpenCreator, isPurcha
                           <span>Leitor Integrado</span>
                         </p>
                         <div className="rounded-2xl border border-white/10 overflow-hidden shadow-2xl bg-slate-950/40">
-                          <iframe
-                            src={`${ebook.uploadedPdf}#toolbar=0`}
-                            className="w-full h-[600px] border-none"
-                            title="PDF Preview"
-                          />
+                          {/iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ? (
+                            <div className="p-8 text-center flex flex-col items-center justify-center gap-3">
+                              <FileText className="w-12 h-12 text-purple-400 stroke-1" />
+                              <p className="text-xs text-slate-400 leading-relaxed max-w-xs">
+                                A visualização direta de PDF não é suportada por navegadores móveis.
+                              </p>
+                              <button
+                                onClick={openPdfInNewTab}
+                                className="px-5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-full shadow-lg cursor-pointer flex items-center gap-1.5"
+                              >
+                                <Eye className="w-3.5 h-3.5" />
+                                <span>Visualizar PDF</span>
+                              </button>
+                            </div>
+                          ) : (
+                            <iframe
+                              src={`${ebook.uploadedPdf}#toolbar=0`}
+                              className="w-full h-[600px] border-none"
+                              title="PDF Preview"
+                            />
+                          )}
                         </div>
                       </div>
                     )}
