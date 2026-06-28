@@ -205,6 +205,7 @@ export function PostCard({
               <img 
                 src={author.avatar} 
                 alt={author.username} 
+                onError={(e) => { (e.target as HTMLImageElement).src = `https://api.dicebear.com/9.x/notionists/svg?seed=${author.username}`; }}
                 className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#1e1a2b] object-cover ring-2 ring-purple-500/10 group-hover:ring-purple-500/50 transition-all duration-300"
               />
               <span className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-[#151224] dark:border-[#151224] app-light-mode:border-white shadow-sm" />
@@ -425,6 +426,7 @@ export function PostCard({
                         key={user.id}
                         className="inline-block h-5.5 w-5.5 rounded-full ring-2 ring-[#151224] dark:ring-[#151224] app-light-mode:ring-white object-cover"
                         src={user.avatar}
+                        onError={(e) => { (e.target as HTMLImageElement).src = `https://api.dicebear.com/9.x/notionists/svg?seed=${user.username}`; }}
                         alt={user.displayName}
                       />
                     ))}
@@ -450,6 +452,7 @@ export function PostCard({
                         key={user.id || idx}
                         className="inline-block h-5.5 w-5.5 rounded-full ring-2 ring-[#151224] dark:ring-[#151224] app-light-mode:ring-white object-cover"
                         src={user.avatar}
+                        onError={(e) => { (e.target as HTMLImageElement).src = `https://api.dicebear.com/9.x/notionists/svg?seed=${user.username}`; }}
                         alt={user.displayName}
                       />
                     ))}
@@ -475,6 +478,7 @@ export function PostCard({
                         key={user.id}
                         className="inline-block h-5.5 w-5.5 rounded-full ring-2 ring-[#151224] dark:ring-[#151224] app-light-mode:ring-white object-cover"
                         src={user.avatar}
+                        onError={(e) => { (e.target as HTMLImageElement).src = `https://api.dicebear.com/9.x/notionists/svg?seed=${user.username}`; }}
                         alt={user.displayName}
                       />
                     ))}
@@ -520,14 +524,20 @@ export function PostCard({
               post.comments.map(comment => (
                 <div key={comment.id} className="flex space-x-3">
                   <div className="w-8 h-8 rounded-full bg-slate-800 shrink-0 overflow-hidden border border-white/10">
-                     <img 
-                       src={
-                         comment.userId === activeUser.id 
-                           ? activeUser.avatar 
-                           : (getStoredData().users.find(u => u.id === comment.userId)?.avatar || `https://api.dicebear.com/9.x/notionists/svg?seed=${comment.userId}`)
-                       } 
-                       alt="avatar" 
-                     />
+                      <img 
+                        src={
+                          comment.userId === activeUser.id 
+                            ? activeUser.avatar 
+                            : (getStoredData().users.find(u => u.id === comment.userId)?.avatar || `https://api.dicebear.com/9.x/notionists/svg?seed=${comment.userId}`)
+                        } 
+                        onError={(e) => { 
+                          const username = comment.userId === activeUser.id 
+                            ? activeUser.username 
+                            : (getStoredData().users.find(u => u.id === comment.userId)?.username || comment.userId);
+                          (e.target as HTMLImageElement).src = `https://api.dicebear.com/9.x/notionists/svg?seed=${username}`; 
+                        }}
+                        alt="avatar" 
+                      />
                   </div>
                   <div className="bg-[#1a1725] p-3.5 rounded-2xl rounded-tl-none border border-white/5 flex-1">
                     <span className="text-[11px] font-semibold text-purple-400 block mb-1">
@@ -546,7 +556,12 @@ export function PostCard({
             )}
           </div>
           <form onSubmit={handleCommentSubmit} className="flex items-center space-x-3">
-            <img src={activeUser.avatar} alt="Me" className="w-9 h-9 rounded-full border border-white/10 bg-slate-800" />
+            <img 
+              src={activeUser.avatar} 
+              onError={(e) => { (e.target as HTMLImageElement).src = `https://api.dicebear.com/9.x/notionists/svg?seed=${activeUser.username}`; }}
+              alt="Me" 
+              className="w-9 h-9 rounded-full border border-white/10 bg-slate-800" 
+            />
             <input 
               type="text" 
               value={commentText}

@@ -321,6 +321,7 @@ export function ImmersivePostReader({
                 <img
                   src={author.avatar}
                   alt={author.username}
+                  onError={(e) => { (e.target as HTMLImageElement).src = `https://api.dicebear.com/9.x/notionists/svg?seed=${author.username}`; }}
                   className="w-12 h-12 rounded-full border border-purple-500/20 object-cover"
                 />
                 <div className="text-left">

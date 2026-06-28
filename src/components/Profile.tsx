@@ -154,6 +154,7 @@ export function Profile({
                   <img 
                     src={avatar} 
                     alt="Preview avatar" 
+                    onError={(e) => { (e.target as HTMLImageElement).src = `https://api.dicebear.com/9.x/notionists/svg?seed=preview`; }}
                     className="w-24 h-24 rounded-full object-cover bg-slate-800 border-2 border-purple-500/50"
                   />
                   <label className="absolute inset-0 flex items-center justify-center bg-black/60 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
@@ -237,6 +238,7 @@ export function Profile({
               <img 
                 src={profileUser.avatar} 
                 alt={profileUser.username}
+                onError={(e) => { (e.target as HTMLImageElement).src = `https://api.dicebear.com/9.x/notionists/svg?seed=${profileUser.username}`; }}
                 className="w-24 h-24 rounded-full bg-slate-800 border-4 border-[#15121e] shadow-lg mb-4 object-cover"
               />
               <div className="flex items-center justify-center gap-2 mb-1">

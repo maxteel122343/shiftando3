@@ -131,7 +131,12 @@ export function Sidebar({ currentUser, onOpenAuth, appTheme, onToggleTheme, post
             className="flex items-center gap-3 p-2 rounded-2xl hover:bg-white/5 transition-all border border-transparent hover:border-white/5"
           >
             <div className="w-10 h-10 rounded-full border border-purple-500/20 p-0.5 shrink-0">
-              <img src={currentUser.avatar} alt="Me" className="w-full h-full rounded-full bg-slate-800 object-cover" />
+              <img 
+                src={currentUser.avatar} 
+                onError={(e) => { (e.target as HTMLImageElement).src = `https://api.dicebear.com/9.x/notionists/svg?seed=${currentUser.username}`; }}
+                alt="Me" 
+                className="w-full h-full rounded-full bg-slate-800 object-cover" 
+              />
             </div>
             <div className="flex flex-col min-w-0">
               <span className="text-xs font-bold text-slate-200 dark:text-slate-200 app-light-mode:text-slate-800 truncate">
@@ -176,7 +181,12 @@ export function Sidebar({ currentUser, onOpenAuth, appTheme, onToggleTheme, post
           to={`/profile/${currentUser.id}`} 
           className="w-7 h-7 rounded-full border border-purple-500/30 p-0.5 hover:scale-105 transition-transform shrink-0"
         >
-          <img src={currentUser.avatar} alt="Me" className="w-full h-full rounded-full bg-slate-800 object-cover" />
+          <img 
+            src={currentUser.avatar} 
+            onError={(e) => { (e.target as HTMLImageElement).src = `https://api.dicebear.com/9.x/notionists/svg?seed=${currentUser.username}`; }}
+            alt="Me" 
+            className="w-full h-full rounded-full bg-slate-800 object-cover" 
+          />
         </NavLink>
       </div>
     </>

@@ -34,5 +34,23 @@ export const MOCK_EBOOKS: EBook[] = [
         fadeOutSec: 2
       }
     ]
+  },
+  {
+    id: 'ebook_karmico',
+    title: 'O PROBLEMA DO SHIFT KÁRMICO',
+    coverImage: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=600&auto=format&fit=crop', // Mystical/zen cover
+    description: 'Compreenda a influência do karma e os bloqueios que impedem a transição de realidade.',
+    content: 'O Shifting e as leis do karma estão profundamente interligados. Muitas vezes, bloqueios que impedem a transição completa de realidade vêm de pendências kármicas da nossa realidade atual (CR).\n\nPara superar esses obstáculos, é preciso realizar um alinhamento energético e liberar antigos padrões mentais.\n\nCapítulo 1: O Peso do Subconsciente\n\nNossas crenças limitantes agem como correntes invisíveis. Quando tentamos mudar para uma Realidade Desejada (DR), qualquer apego excessivo ou sentimento de culpa na CR criará uma resistência no subconsciente. O desapego kármico não significa esquecer as pessoas, mas sim curar as pendências emocionais para que a consciência flua livremente.',
+    likes: [],
+    audioTracks: [
+      {
+        id: 'mock_karmico_t1',
+        title: 'Zen Meditation Flute (Karmic Release)',
+        url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
+        triggerProgress: 0,
+        fadeInSec: 3,
+        fadeOutSec: 3
+      }
+    ]
   }
 ];
