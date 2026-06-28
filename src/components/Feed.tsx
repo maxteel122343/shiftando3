@@ -253,26 +253,20 @@ export function Feed({
 
       {/* 10.000 Sonhos Campaign Slogan & Progress Bar */}
       {!selectedHashtag && (
-        <div className="mb-6 mx-4 p-5 rounded-3xl bg-[#181524] border border-white/10 shadow-lg relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl pointer-events-none" />
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3 relative z-10">
-            <div>
-              <h3 className="text-base font-extrabold text-white flex items-center gap-1.5">
-                ✨ Alcançando 10.000 Sonhos
-              </h3>
-              <p className="text-xs text-slate-300 font-medium mt-1 leading-relaxed">
-                Ajude a registrar relatos extraordinários de sonhos lúcidos, shifting e projeções.
-              </p>
-            </div>
-            <span className="text-xs font-mono font-bold text-purple-200 bg-purple-600/30 px-3 py-1.5 rounded-full shrink-0 self-start sm:self-center border border-purple-500/20">
+        <div className="mb-6 mx-4 p-5 rounded-3xl bg-[#d1fae5] dark:bg-[#064e3b]/30 border border-[#a7f3d0] dark:border-[#047857]/30 shadow-sm relative overflow-hidden">
+          <div className="flex items-center justify-between gap-3 relative z-10">
+            <h3 className="text-[15px] sm:text-[16.5px] font-bold text-[#065f46] dark:text-[#a7f3d0] tracking-wide">
+              RELATOS REAIS
+            </h3>
+            <span className="text-[13px] sm:text-[14px] font-mono font-bold text-[#065f46] dark:text-[#a7f3d0] bg-[#a7f3d0]/60 dark:bg-[#047857]/45 px-3 py-1 rounded-full border border-[#059669]/20 shrink-0">
               {posts.length + ebooksCount} / 10.000 relatos
             </span>
           </div>
           
           {/* Progress bar */}
-          <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden relative z-10">
+          <div className="w-full h-2.5 bg-[#a7f3d0]/30 dark:bg-white/10 rounded-full overflow-hidden mt-3 relative z-10">
             <div 
-              className="h-full bg-gradient-to-r from-purple-600 via-pink-500 to-purple-400 rounded-full transition-all duration-500"
+              className="h-full bg-[#059669] dark:bg-[#34d399] rounded-full transition-all duration-500"
               style={{ width: `${Math.min(100, Math.max(1, ((posts.length + ebooksCount) / 10000) * 100))}%` }}
             />
           </div>
