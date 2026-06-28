@@ -32,37 +32,7 @@ const INITIAL_USERS: User[] = [
   },
 ];
 
-const INITIAL_POSTS: Post[] = [
-  {
-    id: 'post_1',
-    userId: 'user_1',
-    title: 'My first mini-shift to Hogwarts!',
-    content: "I finally did it! It was only for a few minutes, but I could literally smell the parchment and old books in the common room. I used the Raven method combined with a 505Hz subliminal. Don't give up guys, it is so real!",
-    image: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&auto=format&fit=crop&q=60',
-    hashtags: ['#hogwarts', '#minishift', '#ravenmethod', '#success'],
-    likes: ['user_2', 'user_3'],
-    comments: [
-      {
-        id: 'comment_1',
-        postId: 'post_1',
-        userId: 'user_2',
-        content: "Omg congratulations!! I'm so proud of you. Did you script that you would smell books?",
-        createdAt: Date.now() - 3600000,
-      }
-    ],
-    createdAt: Date.now() - 7200000,
-  },
-  {
-    id: 'post_2',
-    userId: 'user_2',
-    title: 'Tips for staying grounded in your DR',
-    content: 'A lot of people shift back accidentally because they get too excited. When you arrive in your Desired Reality, the first thing you should do is touch something. Feel the texture. Grounding yourself in the physical sensations of your DR prevents premature pulling back to your CR.',
-    hashtags: ['#tips', '#grounding', '#shiftinghelp'],
-    likes: ['user_1'],
-    comments: [],
-    createdAt: Date.now() - 86400000,
-  }
-];
+const INITIAL_POSTS: Post[] = [];
 
 // We will simulate a logged in user (the current user of the app)
 export const CURRENT_USER: User = {
