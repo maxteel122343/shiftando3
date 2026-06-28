@@ -331,7 +331,7 @@ export function PostCard({
             {(post.content.length > 200 || (post.content.match(/\n/g) || []).length > 2) && !isContentExpanded ? (
               <div className="relative">
                 <div className="max-h-[160px] overflow-hidden relative">
-                  <p className="text-slate-100 dark:text-slate-100 app-light-mode:text-[#2d264d] text-[15px] sm:text-[16.5px] leading-[1.8] whitespace-pre-wrap font-sans tracking-wide">
+                  <p className="text-slate-100 dark:text-slate-100 app-light-mode:text-[#2d264d] text-[15px] sm:text-[16.5px] leading-[1.8] whitespace-pre-wrap break-words font-sans tracking-wide">
                     {post.content}
                   </p>
                   <div className="absolute bottom-0 left-0 right-0 h-24 post-fade-overlay pointer-events-none flex items-end justify-center pb-2 z-20">
@@ -350,7 +350,7 @@ export function PostCard({
                 </div>
               </div>
             ) : (
-              <p className="text-slate-100 dark:text-slate-100 app-light-mode:text-[#2d264d] text-[15px] sm:text-[16.5px] leading-[1.8] whitespace-pre-wrap font-sans tracking-wide animate-fade-in duration-300">
+              <p className="text-slate-100 dark:text-slate-100 app-light-mode:text-[#2d264d] text-[15px] sm:text-[16.5px] leading-[1.8] whitespace-pre-wrap break-words font-sans tracking-wide animate-fade-in duration-300">
                 {post.content}
               </p>
             )}

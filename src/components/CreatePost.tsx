@@ -24,7 +24,7 @@ export function CreatePost({ currentUser, onPostCreate, initialTitle = '', initi
   const [content, setContent] = useState(initialContent);
   const [hashtags, setHashtags] = useState('#shifting #reddit');
   const [imageUrl, setImageUrl] = useState(initialImage);
-  const [focusOnText, setFocusOnText] = useState(true);
+  const [focusOnText, setFocusOnText] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -41,7 +41,7 @@ export function CreatePost({ currentUser, onPostCreate, initialTitle = '', initi
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title.trim() || content.trim().length < 700) return;
+    if (!title.trim() || !content.trim()) return;
 
     const tagsArray = hashtags
       .split(' ')
@@ -127,15 +127,10 @@ export function CreatePost({ currentUser, onPostCreate, initialTitle = '', initi
               className="w-full bg-[#0c0a13] border border-white/5 rounded-2xl px-4 py-3 sm:px-5 sm:py-3.5 text-sm sm:text-[15px] text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/50 transition-all resize-none"
               required
             />
-            <div className="flex justify-between items-center mt-1.5 px-1.5">
-              <span className={`text-[10px] font-bold ${content.trim().length < 700 ? 'text-red-400' : 'text-emerald-400'}`}>
-                {content.trim().length} / 700 caracteres mínimos
+            <div className="flex justify-end mt-1 px-1.5">
+              <span className="text-[10px] text-slate-500 font-medium">
+                {content.trim().length} caracteres
               </span>
-              {content.trim().length < 700 && (
-                <span className="text-[10px] text-slate-500 font-medium">
-                  Faltam {700 - content.trim().length} caracteres para publicar
-                </span>
-              )}
             </div>
           </div>
 
@@ -242,7 +237,7 @@ export function CreatePost({ currentUser, onPostCreate, initialTitle = '', initi
           <div className="pt-4 sm:pt-6 flex justify-end">
             <button
               type="submit"
-              disabled={!title.trim() || content.trim().length < 700}
+              disabled={!title.trim() || !content.trim()}
               className="w-full sm:w-auto px-8 py-3 sm:py-3.5 bg-purple-600 text-white font-medium rounded-full hover:bg-purple-700 disabled:opacity-50 disabled:hover:bg-purple-600 transition-colors shadow-[0_4px_15px_rgba(255,77,109,0.25)] cursor-pointer"
             >
               Publicar Post
