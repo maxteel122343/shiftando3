@@ -223,6 +223,34 @@ export function Feed({
         )}
       </div>
 
+      {/* 10.000 Sonhos Campaign Slogan & Progress Bar */}
+      {!selectedHashtag && (
+        <div className="mb-6 mx-4 p-4 rounded-3xl bg-[#14121f]/90 border border-white/5 shadow-lg relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full blur-2xl pointer-events-none" />
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+            <div>
+              <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                ✨ Alcançando 10.000 Sonhos
+              </h3>
+              <p className="text-[11px] text-slate-400">
+                Ajude a registrar relatos extraordinários de sonhos lúcidos, shifting e projeções.
+              </p>
+            </div>
+            <span className="text-xs font-mono font-bold text-purple-400 bg-purple-500/10 px-2.5 py-1 rounded-full shrink-0 self-start sm:self-center">
+              {posts.length} / 10.000 relatos
+            </span>
+          </div>
+          
+          {/* Progress bar */}
+          <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-gradient-to-r from-purple-600 via-pink-500 to-purple-400 rounded-full transition-all duration-500"
+              style={{ width: `${Math.min(100, Math.max(1, (posts.length / 10000) * 100))}%` }}
+            />
+          </div>
+        </div>
+      )}
+
       <div className="space-y-0 sm:space-y-5">
         {sortedPosts.length === 0 && selectedHashtag ? (
           <div className="text-center py-20 bg-white/[0.02] rounded-[28px] border border-white/5 border-dashed">

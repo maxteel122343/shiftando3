@@ -80,4 +80,5 @@ export interface Post {
   repostOf?: string;
   repostedBy?: string;
   relatedEBookId?: string;
+  focusOnText?: boolean;
 }

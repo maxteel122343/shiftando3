@@ -221,7 +221,8 @@ export async function getPosts(): Promise<Post[]> {
         content: c.content,
         createdAt: new Date(c.created_at).getTime()
       })),
-      createdAt: new Date(row.created_at).getTime()
+      createdAt: new Date(row.created_at).getTime(),
+      focusOnText: row.focus_on_text !== false
     }));
   } catch (error: any) {
     console.warn('Erro ao acessar posts no Supabase, ativando fallback local:', error?.message || error);
@@ -245,6 +246,7 @@ export async function createPost(post: Post): Promise<boolean> {
         content: post.content,
         image: post.image || null,
         hashtags: post.hashtags || [],
+        focus_on_text: post.focusOnText !== false,
         created_at: new Date(post.createdAt).toISOString()
       });
 

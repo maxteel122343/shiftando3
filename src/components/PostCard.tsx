@@ -357,7 +357,10 @@ export function PostCard({
           </div>
 
           {post.image && !imageError && (
-            <div className="mb-4 rounded-xl overflow-hidden bg-black/10 dark:bg-black/40 border border-slate-200 dark:border-white/5 relative group/imgContainer">
+            <div className={cn(
+              "mb-4 rounded-xl overflow-hidden bg-black/10 dark:bg-black/40 border border-slate-200 dark:border-white/5 relative group/imgContainer",
+              post.focusOnText ? "max-h-[160px] max-w-[280px] mx-auto opacity-75 hover:opacity-100 transition-opacity" : ""
+            )}>
               <img 
                 src={post.image} 
                 alt="Post attachment" 

@@ -55,10 +55,10 @@ export function Sidebar({ currentUser, onOpenAuth, appTheme, onToggleTheme, post
           </div>
           <div className="flex flex-col">
             <span className="font-black text-xl bg-gradient-to-r from-purple-400 via-pink-500 to-purple-300 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(168,85,247,0.4)] app-light-mode:bg-none app-light-mode:text-purple-700 app-light-mode:drop-shadow-none tracking-tight">
-              Sonhos Estranhos
+              Dreamscape
             </span>
             <span className="text-[9px] text-slate-500 font-medium tracking-normal mt-0.5">
-              Comunidade de Relatos Diários
+              Alcançando 10.000 Sonhos
             </span>
           </div>
         </div>

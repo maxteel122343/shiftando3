@@ -24,6 +24,7 @@ export function CreatePost({ currentUser, onPostCreate, initialTitle = '', initi
   const [content, setContent] = useState(initialContent);
   const [hashtags, setHashtags] = useState('#shifting #reddit');
   const [imageUrl, setImageUrl] = useState(initialImage);
+  const [focusOnText, setFocusOnText] = useState(true);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -40,7 +41,7 @@ export function CreatePost({ currentUser, onPostCreate, initialTitle = '', initi
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title.trim() || !content.trim()) return;
+    if (!title.trim() || content.trim().length < 700) return;
 
     const tagsArray = hashtags
       .split(' ')
@@ -58,6 +59,7 @@ export function CreatePost({ currentUser, onPostCreate, initialTitle = '', initi
       likes: [],
       comments: [],
       createdAt: Date.now(),
+      focusOnText: focusOnText,
     };
 
     onPostCreate(newPost);
@@ -125,6 +127,16 @@ export function CreatePost({ currentUser, onPostCreate, initialTitle = '', initi
               className="w-full bg-[#0c0a13] border border-white/5 rounded-2xl px-4 py-3 sm:px-5 sm:py-3.5 text-sm sm:text-[15px] text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/50 transition-all resize-none"
               required
             />
+            <div className="flex justify-between items-center mt-1.5 px-1.5">
+              <span className={`text-[10px] font-bold ${content.trim().length < 700 ? 'text-red-400' : 'text-emerald-400'}`}>
+                {content.trim().length} / 700 caracteres mínimos
+              </span>
+              {content.trim().length < 700 && (
+                <span className="text-[10px] text-slate-500 font-medium">
+                  Faltam {700 - content.trim().length} caracteres para publicar
+                </span>
+              )}
+            </div>
           </div>
 
           <div>
@@ -201,6 +213,20 @@ export function CreatePost({ currentUser, onPostCreate, initialTitle = '', initi
             </div>
           )}
 
+          {/* Toggle Focus on Text */}
+          <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/[0.02] border border-white/5">
+            <input
+              type="checkbox"
+              id="focusOnText"
+              checked={focusOnText}
+              onChange={(e) => setFocusOnText(e.target.checked)}
+              className="w-4 h-4 rounded text-purple-600 focus:ring-purple-500 border-white/10 bg-black/40 cursor-pointer"
+            />
+            <label htmlFor="focusOnText" className="text-xs font-semibold text-slate-300 cursor-pointer select-none">
+              ✨ Focar no texto (esconde ou reduz o tamanho da imagem no Feed)
+            </label>
+          </div>
+
           {currentUser.id === 'user_me' && (
             <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 text-xs text-amber-300 flex items-start gap-2.5">
               <span className="text-base select-none">⚠️</span>
@@ -216,7 +242,7 @@ export function CreatePost({ currentUser, onPostCreate, initialTitle = '', initi
           <div className="pt-4 sm:pt-6 flex justify-end">
             <button
               type="submit"
-              disabled={!title.trim() || !content.trim()}
+              disabled={!title.trim() || content.trim().length < 700}
               className="w-full sm:w-auto px-8 py-3 sm:py-3.5 bg-purple-600 text-white font-medium rounded-full hover:bg-purple-700 disabled:opacity-50 disabled:hover:bg-purple-600 transition-colors shadow-[0_4px_15px_rgba(255,77,109,0.25)] cursor-pointer"
             >
               Publicar Post
