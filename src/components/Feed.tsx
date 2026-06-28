@@ -152,11 +152,16 @@ export function Feed({
 
   // Intersection observer for infinite scroll
   useEffect(() => {
+    const mainElement = document.querySelector('main');
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && sortedPosts.length > 0) {
         setMultiplier(prev => prev + 1);
       }
-    }, { threshold: 0.1 });
+    }, { 
+      root: mainElement,
+      rootMargin: '200px',
+      threshold: 0.1 
+    });
 
     const el = sentinelRef.current;
     if (el) observer.observe(el);
