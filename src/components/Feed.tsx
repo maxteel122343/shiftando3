@@ -259,7 +259,7 @@ export function Feed({
               RELATOS REAIS
             </h3>
             <span className="text-[13px] sm:text-[14px] font-mono font-bold text-[#065f46] dark:text-[#a7f3d0] bg-[#a7f3d0]/60 dark:bg-[#047857]/45 px-3 py-1 rounded-full border border-[#059669]/20 shrink-0">
-              {posts.length + ebooksCount} / 10.000 relatos
+              *** / 10.000 relatos
             </span>
           </div>
           

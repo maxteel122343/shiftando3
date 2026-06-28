@@ -459,6 +459,12 @@ export default function App() {
       createdAt: Date.now(),
       relatedEBookId: ebookId
     };
+    
+    // Save locally to cache so it displays and persists in fallback state
+    const localData = getStoredData();
+    localData.posts.unshift(newPost);
+    saveData(localData.posts, localData.users);
+
     setPosts(prev => [newPost, ...prev]);
     
     if (isSupabaseConfigured) {

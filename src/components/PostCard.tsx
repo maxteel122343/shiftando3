@@ -364,12 +364,12 @@ export function PostCard({
               <img 
                 src={post.image} 
                 alt="Post attachment" 
-                className="w-full h-auto object-cover max-h-[350px]"
+                className="w-full h-auto object-contain max-h-[450px]"
                 onError={() => setImageError(true)}
               />
               
               {resolvedEBookId && (
-                <div className="absolute inset-0 bg-black/35 flex items-center justify-center opacity-90 sm:opacity-0 group-hover/imgContainer:opacity-100 transition-opacity duration-300">
+                <div className="absolute inset-0 bg-black/35 flex items-center justify-center opacity-100 transition-opacity duration-300">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -398,10 +398,10 @@ export function PostCard({
                         }, 3000);
                       }
                     }}
-                    className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_4px_15px_rgba(126,58,242,0.4)] flex items-center gap-1.5 cursor-pointer scale-90 sm:scale-100 active:scale-95 no-card-click"
+                    className="px-6 py-3 bg-[#059669] hover:bg-[#047857] text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_4px_15px_rgba(5,150,105,0.4)] flex items-center gap-1.5 cursor-pointer scale-90 sm:scale-100 active:scale-95 no-card-click"
                   >
                     <BookOpen className="w-4 h-4 text-white" />
-                    <span>Ler E-Book</span>
+                    <span>Acessar E-book</span>
                   </button>
                 </div>
               )}
