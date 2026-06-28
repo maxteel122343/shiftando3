@@ -187,10 +187,15 @@ export async function getPosts(): Promise<Post[]> {
       .from('posts')
       .select(`
         *,
-        profiles:user_id (
-          username,
-          display_name,
-          avatar
+        likes (
+          user_id
+        ),
+        comments (
+          id,
+          post_id,
+          user_id,
+          content,
+          created_at
         )
       `)
       .order('created_at', { ascending: false });
@@ -201,55 +206,23 @@ export async function getPosts(): Promise<Post[]> {
       throw postsError;
     }
 
-    const posts: Post[] = [];
-
-    for (const row of (postsData || [])) {
-      const postUuid = row.id;
-
-      // Fetch likes
-      const { data: likesData, error: likesError } = await supabase
-        .from('likes')
-        .select('user_id')
-        .eq('post_id', postUuid);
-
-      if (likesError) throw likesError;
-
-      // Fetch comments
-      const { data: commentsData, error: commentsError } = await supabase
-        .from('comments')
-        .select(`
-          *,
-          profiles:user_id (
-            username,
-            display_name,
-            avatar
-          )
-        `)
-        .eq('post_id', postUuid)
-        .order('created_at', { ascending: true });
-
-      if (commentsError) throw commentsError;
-
-      posts.push({
-        id: row.id,
-        userId: row.user_id,
-        title: row.title || '',
-        content: row.content,
-        image: row.image || undefined,
-        hashtags: row.hashtags || [],
-        likes: (likesData || []).map(l => l.user_id),
-        comments: (commentsData || []).map(c => ({
-          id: c.id,
-          postId: c.post_id,
-          userId: c.user_id,
-          content: c.content,
-          createdAt: new Date(c.created_at).getTime()
-        })),
-        createdAt: new Date(row.created_at).getTime()
-      });
-    }
-
-    return posts;
+    return (postsData || []).map(row => ({
+      id: row.id,
+      userId: row.user_id,
+      title: row.title || '',
+      content: row.content,
+      image: row.image || undefined,
+      hashtags: row.hashtags || [],
+      likes: (row.likes || []).map((l: any) => l.user_id),
+      comments: (row.comments || []).map((c: any) => ({
+        id: c.id,
+        postId: c.post_id,
+        userId: c.user_id,
+        content: c.content,
+        createdAt: new Date(c.created_at).getTime()
+      })),
+      createdAt: new Date(row.created_at).getTime()
+    }));
   } catch (error: any) {
     console.warn('Erro ao acessar posts no Supabase, ativando fallback local:', error?.message || error);
     isSupabaseOnline = false;
@@ -749,10 +722,9 @@ export async function getEBooksSupabase(): Promise<EBook[]> {
   if (!supabase || !isSupabaseOnline) return [];
 
   try {
-    // Fetch all ebooks
     const { data: ebooksData, error: ebooksError } = await supabase
       .from('ebooks')
-      .select('*')
+      .select('*, ebook_pages(*)')
       .order('created_at', { ascending: false });
 
     if (ebooksError) {
@@ -762,18 +734,7 @@ export async function getEBooksSupabase(): Promise<EBook[]> {
 
     if (!ebooksData || ebooksData.length === 0) return [];
 
-    // Fetch all ebook pages
-    const { data: pagesData, error: pagesError } = await supabase
-      .from('ebook_pages')
-      .select('*')
-      .order('page_index', { ascending: true });
-
-    if (pagesError) {
-      console.warn('Erro ao buscar páginas de e-books do Supabase:', pagesError.message);
-      return ebooksData.map(row => rowToEBook(row, []));
-    }
-
-    return ebooksData.map(row => rowToEBook(row, pagesData || []));
+    return ebooksData.map(row => rowToEBook(row, row.ebook_pages || []));
   } catch (error: any) {
     console.warn('Erro ao acessar e-books no Supabase:', error?.message || error);
     return [];
