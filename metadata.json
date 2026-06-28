@@ -1,0 +1,8 @@
+{
+  "name": "Remix: Remix: Remix: Shifting Haven",
+  "description": "A community for sharing and discovering reality shifting stories, experiences, and methods.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

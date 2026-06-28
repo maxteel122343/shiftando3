@@ -1,0 +1,15 @@
+{
+  "ignore": ["**/*.d.ts"],
+  "plugins": [
+    "@babel/plugin-transform-typescript",
+    "@babel/plugin-transform-async-to-generator",
+    "@babel/plugin-transform-arrow-functions",
+    "@babel/plugin-transform-block-scoping",
+    "@babel/plugin-transform-destructuring",
+    "@babel/plugin-transform-modules-commonjs",
+    "@babel/plugin-transform-parameters",
+    "@babel/plugin-transform-spread",
+    "@babel/plugin-transform-template-literals",
+    "@babel/plugin-proposal-object-rest-spread"
+  ]
+}
