@@ -339,9 +339,9 @@ export function AIChatGuide() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <Bot className="w-6 h-6 text-purple-400" />
-            <h1 className="text-2xl font-bold tracking-tight text-white">Guia de Shifting AI</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-white app-light-mode:text-slate-800">Guia de Shifting AI</h1>
           </div>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-400 app-light-mode:text-slate-500">
             Converse sobre Desired Reality, scripts, sintomas e prepare sua mente para o Shifting.
           </p>
         </div>
@@ -436,9 +436,9 @@ export function AIChatGuide() {
       )}
 
       {/* Chat Area */}
-      <div className="flex-1 bg-[#100e19]/60 border border-white/5 rounded-[28px] overflow-hidden flex flex-col min-h-[400px]">
+      <div className="flex-1 bg-[#100e19]/60 border border-white/5 app-light-mode:bg-white app-light-mode:border-slate-200 rounded-[28px] overflow-hidden flex flex-col min-h-[400px] shadow-sm">
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 custom-scrollbar app-light-mode:bg-slate-50/50">
           {messages.map((m) => {
             const isModel = m.role === 'model';
             return (
@@ -450,8 +450,8 @@ export function AIChatGuide() {
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 border ${
                     isModel 
-                      ? 'bg-purple-950/40 text-purple-400 border-purple-500/10 shadow-[0_0_10px_rgba(126,58,242,0.1)]' 
-                      : 'bg-white/5 text-slate-300 border-white/5'
+                      ? 'bg-purple-950/40 text-purple-400 border-purple-500/10 shadow-[0_0_10px_rgba(126,58,242,0.1)] app-light-mode:bg-purple-50 app-light-mode:text-purple-600 app-light-mode:border-purple-200' 
+                      : 'bg-white/5 text-slate-300 border-white/5 app-light-mode:bg-slate-100 app-light-mode:text-slate-600 app-light-mode:border-slate-200'
                   }`}
                 >
                   {isModel ? <Bot className="w-4 h-4" /> : <span className="text-[10px] font-bold">CR</span>}
@@ -460,8 +460,8 @@ export function AIChatGuide() {
                 <div
                   className={`p-4 rounded-3xl text-sm leading-relaxed whitespace-pre-wrap border ${
                     isModel 
-                      ? 'bg-[#14121f] text-slate-300 border-white/[0.04]' 
-                      : 'bg-gradient-to-r from-purple-600/90 to-purple-500/90 text-white border-purple-500/10 shadow-[0_4px_15px_rgba(126,58,242,0.15)]'
+                      ? 'bg-[#14121f] text-slate-300 border-white/[0.04] app-light-mode:bg-white app-light-mode:text-slate-700 app-light-mode:border-slate-200 shadow-sm' 
+                      : 'bg-gradient-to-r from-purple-600/90 to-purple-500/90 text-white border-purple-500/10 shadow-[0_4px_15px_rgba(126,58,242,0.15)] app-light-mode:bg-purple-100/70 app-light-mode:text-purple-900 app-light-mode:border-purple-200/60 shadow-none'
                   }`}
                 >
                   {m.content}
@@ -474,7 +474,7 @@ export function AIChatGuide() {
               <div className="w-8 h-8 rounded-full bg-purple-950/40 text-purple-400 border border-purple-500/10 flex items-center justify-center shrink-0 animate-pulse">
                 <Bot className="w-4 h-4" />
               </div>
-              <div className="p-4 rounded-3xl bg-[#14121f] border border-white/[0.04] text-slate-400 text-xs font-mono flex items-center gap-2">
+              <div className="p-4 rounded-3xl bg-[#14121f] border border-white/[0.04] text-slate-400 text-xs font-mono flex items-center gap-2 app-light-mode:bg-white app-light-mode:text-slate-500 app-light-mode:border-slate-200">
                 <span className="w-2 h-2 rounded-full bg-purple-500 animate-ping" />
                 Sintonizando ondas mentais...
               </div>
@@ -485,14 +485,14 @@ export function AIChatGuide() {
 
         {/* Suggestions */}
         {messages.length === 1 && !isLoading && (
-          <div className="p-4 border-t border-white/5 bg-white/[0.01]">
+          <div className="p-4 border-t border-white/5 bg-white/[0.01] app-light-mode:bg-slate-50/50 app-light-mode:border-slate-200">
             <span className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2.5 px-2">Sugestões de sintonia</span>
             <div className="flex flex-wrap gap-2 px-2">
               {suggestions.map((s) => (
                 <button
                   key={s.text}
                   onClick={() => handleSendMessage(s.text.replace(/^[^\s]+\s/, ''))}
-                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-white/5 bg-white/[0.02] text-xs text-slate-400 hover:text-white hover:bg-purple-600/10 hover:border-purple-500/20 transition-all cursor-pointer font-medium"
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-white/5 bg-white/[0.02] text-xs text-slate-400 hover:text-white hover:bg-purple-600/10 hover:border-purple-500/20 transition-all cursor-pointer font-medium app-light-mode:bg-white app-light-mode:border-slate-200 app-light-mode:text-slate-600 app-light-mode:hover:bg-purple-50/50 app-light-mode:hover:text-purple-600 app-light-mode:hover:border-purple-200"
                 >
                   <s.icon className="w-3.5 h-3.5 text-purple-400" />
                   <span>{s.text}</span>
@@ -508,7 +508,7 @@ export function AIChatGuide() {
             e.preventDefault();
             handleSendMessage(inputMessage);
           }}
-          className="p-4 border-t border-white/5 flex gap-3 bg-[#0d0b14]"
+          className="p-4 border-t border-white/5 flex gap-3 bg-[#0d0b14] app-light-mode:bg-white app-light-mode:border-slate-200"
         >
           <input
             type="text"
@@ -516,12 +516,12 @@ export function AIChatGuide() {
             onChange={(e) => setInputMessage(e.target.value)}
             placeholder={credits <= 0 ? "Você não tem créditos. Clique em recarregar acima." : "Escreva seu script, dúvida ou método..."}
             disabled={isLoading || credits <= 0}
-            className="flex-1 bg-[#14121f] border border-white/5 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-transparent transition-all disabled:opacity-50"
+            className="flex-1 bg-[#14121f] border border-white/5 app-light-mode:bg-slate-50 app-light-mode:border-slate-200 app-light-mode:text-slate-800 app-light-mode:placeholder-slate-400 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-transparent transition-all disabled:opacity-50"
           />
           <button
             type="submit"
             disabled={!inputMessage.trim() || isLoading || credits <= 0}
-            className="p-3 bg-gradient-to-r from-purple-600 to-purple-500 text-white rounded-xl hover:scale-105 active:scale-95 transition-all shadow-[0_4px_15px_rgba(255,77,109,0.3)] disabled:opacity-50 disabled:scale-100 disabled:shadow-none shrink-0 cursor-pointer"
+            className="p-3 bg-gradient-to-r from-purple-600 to-purple-500 text-white rounded-xl hover:scale-105 active:scale-95 transition-all shadow-[0_4px_15px_rgba(255,77,109,0.3)] app-light-mode:shadow-none disabled:opacity-50 disabled:scale-100 disabled:shadow-none shrink-0 cursor-pointer"
             title="Enviar Mensagem"
           >
             <Send className="w-4 h-4" />

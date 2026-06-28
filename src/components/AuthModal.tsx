@@ -442,28 +442,6 @@ export function AuthModal({ isOpen, onClose, users, currentUser, onAuthenticate,
                 <LogIn className="w-4 h-4" />
                 <span>{isSubmitting ? 'Entrando...' : 'Entrar no Universo'}</span>
               </button>
-              
-              {!isSupabaseConfigured && (
-                <div className="pt-4 border-t border-white/5">
-                  <span className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2.5">Acesso Rápido (Selecione um usuário):</span>
-                  <div className="grid grid-cols-2 gap-2">
-                    {users.map(u => (
-                      <button
-                        key={u.id}
-                        type="button"
-                        onClick={() => handleQuickLogin(u)}
-                        className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.02] border border-white/5 hover:bg-white/5 hover:border-purple-500/30 transition-all text-left cursor-pointer"
-                      >
-                        <img src={u.avatar} alt={u.username} className="w-8 h-8 rounded-full object-cover bg-slate-800" />
-                        <div className="min-w-0">
-                          <span className="block text-[11px] font-bold text-white truncate leading-tight">{u.displayName}</span>
-                          <span className="block text-[10px] text-slate-500 truncate leading-none">@{u.username}</span>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
             </form>
           ) : (
             /* Register Form */
