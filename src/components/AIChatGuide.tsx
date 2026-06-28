@@ -46,6 +46,9 @@ export function AIChatGuide() {
     return Number(stored);
   });
   const [showPixModal, setShowPixModal] = useState(false);
+  const [showCreditsTestModal, setShowCreditsTestModal] = useState(false);
+  const [testInputValue, setTestInputValue] = useState('');
+  const [testInputError, setTestInputError] = useState(false);
   const [selectedPixOption, setSelectedPixOption] = useState<{ credits: number; price: string } | null>(null);
   const [simulatedPixQR, setSimulatedPixQR] = useState<string | null>(null);
 
@@ -144,7 +147,7 @@ export function AIChatGuide() {
 
     // Check credits before sending
     if (credits <= 0) {
-      setShowPixModal(true);
+      setShowCreditsTestModal(true);
       return;
     }
 
@@ -313,6 +316,20 @@ export function AIChatGuide() {
     setSelectedPixOption(null);
     setSimulatedPixQR(null);
     alert(`Pagamento simulado com sucesso! ${selectedPixOption.credits} créditos foram adicionados à sua conta. ✨`);
+  };
+
+  const handleRedeemTestCredits = () => {
+    if (testInputValue.trim() === '+5 creditos para mim') {
+      const nextCredits = credits + 5;
+      setCredits(nextCredits);
+      localStorage.setItem('shifting_ai_credits', String(nextCredits));
+      setShowCreditsTestModal(false);
+      setTestInputValue('');
+      setTestInputError(false);
+      alert('✨ 5 créditos foram adicionados com sucesso!');
+    } else {
+      setTestInputError(true);
+    }
   };
 
   return (
@@ -607,6 +624,80 @@ export function AIChatGuide() {
                 </div>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Credits Test Modal */}
+      {showCreditsTestModal && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-in fade-in duration-200">
+          <div className="bg-[#100d1a] border border-white/10 rounded-[32px] w-full max-w-[420px] p-6 relative overflow-hidden shadow-[0_10px_50px_rgba(124,58,237,0.3)] animate-in zoom-in-95 duration-200">
+            <button 
+              onClick={() => {
+                setShowCreditsTestModal(false);
+                setTestInputValue('');
+                setTestInputError(false);
+              }}
+              className="absolute top-4 right-4 p-1.5 rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            <div className="flex items-center gap-2.5 mb-4">
+              <div className="w-9 h-9 rounded-full bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+                <Coins className="w-5 h-5 animate-pulse" />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-white">Seus créditos acabaram!</h3>
+                <p className="text-[10px] text-slate-500">Faça o teste de validação para resgatar mais créditos</p>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="p-4 bg-white/[0.02] border border-white/5 rounded-2xl text-xs text-slate-300 leading-relaxed text-left">
+                Para confirmar que você está utilizando ativamente o Guia de Shifting, digite exatamente a frase abaixo no campo de texto:
+                <div className="mt-3 p-3 bg-[#0a0810] border border-white/10 rounded-xl text-center font-bold text-purple-400 select-all selection:bg-purple-500/30 selection:text-white font-mono tracking-wide">
+                  +5 creditos para mim
+                </div>
+              </div>
+
+              <div>
+                <input
+                  type="text"
+                  value={testInputValue}
+                  onChange={(e) => {
+                    setTestInputValue(e.target.value);
+                    if (testInputError) setTestInputError(false);
+                  }}
+                  placeholder="Digite a frase aqui..."
+                  className={`w-full bg-[#14121f] border ${testInputError ? 'border-rose-500/50 focus:ring-rose-500' : 'border-white/5 focus:ring-purple-500'} rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-1 focus:border-transparent transition-all`}
+                />
+                {testInputError && (
+                  <p className="text-[10px] text-rose-400 mt-1.5 text-left font-medium">
+                    ⚠️ A frase digitada está incorreta. Digite exatamente "+5 creditos para mim".
+                  </p>
+                )}
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    setShowCreditsTestModal(false);
+                    setTestInputValue('');
+                    setTestInputError(false);
+                  }}
+                  className="flex-1 py-3 rounded-2xl bg-white/5 text-xs text-slate-400 hover:text-white transition-colors cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleRedeemTestCredits}
+                  className="flex-1 py-3 rounded-2xl bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-xs font-bold text-white transition-colors shadow-lg shadow-purple-500/20 cursor-pointer"
+                >
+                  Resgatar Créditos
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
