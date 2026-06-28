@@ -630,7 +630,7 @@ export default function App() {
 
   return (
     <>
-    <div className={`flex ${isChatRoute ? 'h-screen overflow-hidden' : 'min-h-screen'} bg-[#0c0a13] text-slate-200 font-sans relative transition-colors duration-300 ${appTheme === 'light' ? 'app-light-mode' : ''}`}>
+    <div className={`flex h-screen overflow-hidden bg-[#0c0a13] text-slate-200 font-sans relative transition-colors duration-300 ${appTheme === 'light' ? 'app-light-mode' : ''}`}>
       <Sidebar 
         currentUser={currentUser} 
         onOpenAuth={() => setIsAuthModalOpen(true)} 
