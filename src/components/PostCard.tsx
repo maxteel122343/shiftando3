@@ -181,7 +181,7 @@ export function PostCard({
   return (
     <div 
       onClick={handleCardClick}
-      className="group/card shifting-card cursor-pointer rounded-[24px] sm:rounded-[28px] overflow-hidden mb-4 sm:mb-5 relative border border-white/[0.06] border-t-white/[0.12] dark:border-white/[0.06] dark:border-t-white/[0.12] app-light-mode:border-slate-200/50 app-light-mode:border-t-white/90 shadow-[0_20px_50px_rgba(0,0,0,0.25),0_4px_12px_rgba(126,58,242,0.02)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.25),0_4px_12px_rgba(126,58,242,0.02)] app-light-mode:shadow-[0_16px_36px_-8px_rgba(0,0,0,0.05)] hover:translate-y-[-3px] transition-all duration-300 ease-out"
+      className="group/card shifting-card cursor-pointer rounded-none sm:rounded-[28px] overflow-hidden mb-px sm:mb-5 relative border-0 sm:border border-white/[0.06] border-t-white/[0.12] dark:border-white/[0.06] dark:border-t-white/[0.12] app-light-mode:border-slate-200/50 app-light-mode:border-t-white/90 shadow-none sm:shadow-[0_20px_50px_rgba(0,0,0,0.25),0_4px_12px_rgba(126,58,242,0.02)] dark:shadow-none dark:sm:shadow-[0_20px_50px_rgba(0,0,0,0.25),0_4px_12px_rgba(126,58,242,0.02)] app-light-mode:shadow-none app-light-mode:sm:shadow-[0_16px_36px_-8px_rgba(0,0,0,0.05)] hover:sm:translate-y-[-3px] transition-all duration-300 ease-out border-b border-white/[0.04] sm:border-b-0"
     >
       {post.repostedBy && (
         <div className="flex items-center gap-1.5 px-5 sm:px-7 pt-4 text-[12px] font-medium text-purple-400">

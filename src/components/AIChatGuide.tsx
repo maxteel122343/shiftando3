@@ -333,9 +333,9 @@ export function AIChatGuide() {
   };
 
   return (
-    <div className="w-full py-8 px-4 relative z-10 flex flex-col min-h-[calc(100vh-80px)]">
+    <div className="w-full h-full flex flex-col px-2 sm:px-4 pt-4 sm:pt-6 pb-0 relative z-10 overflow-hidden">
       {/* Heading */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 px-2">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-4 mb-3 sm:mb-6 px-2 shrink-0">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <Bot className="w-6 h-6 text-purple-400" />
@@ -436,7 +436,7 @@ export function AIChatGuide() {
       )}
 
       {/* Chat Area */}
-      <div className="flex-1 bg-[#100e19]/60 border border-white/5 app-light-mode:bg-white app-light-mode:border-slate-200 rounded-[28px] overflow-hidden flex flex-col min-h-[400px] shadow-sm">
+      <div className="flex-1 bg-[#100e19]/60 border border-white/5 app-light-mode:bg-white app-light-mode:border-slate-200 rounded-[28px] overflow-hidden flex flex-col shadow-sm">
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 custom-scrollbar app-light-mode:bg-slate-50/50">
           {messages.map((m) => {

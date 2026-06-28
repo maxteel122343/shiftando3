@@ -172,9 +172,9 @@ export function Feed({
   ];
 
   return (
-    <div className="w-full py-8 px-4 relative z-10">
+    <div className="w-full py-4 sm:py-8 px-0 relative z-10">
       {/* Header */}
-      <div className="mb-6 flex items-center justify-between px-2">
+      <div className="mb-5 flex items-center justify-between px-4">
         <div className="flex items-center gap-3">
           <h1 className="text-2xl font-semibold tracking-tight text-white">Home</h1>
           <Link

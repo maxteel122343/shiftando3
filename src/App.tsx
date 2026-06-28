@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Plus, Search, Bookmark, TrendingUp, WifiOff, ChevronDown, ChevronUp, Database, AlertCircle, X } from 'lucide-react';
 import { Sidebar } from './components/Sidebar';
 import { Feed } from './components/Feed';
@@ -52,6 +52,8 @@ function CreatePostWithParams({ currentUser, onPostCreate }: { currentUser: User
 
 
 export default function App() {
+  const location = useLocation();
+  const isChatRoute = location.pathname === '/chat';
   const [posts, setPosts] = useState<Post[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [savedPostIds, setSavedPostIds] = useState<string[]>([]);
@@ -627,18 +629,23 @@ export default function App() {
   };
 
   return (
-    <BrowserRouter>
-      <div className={`flex min-h-screen bg-[#0c0a13] text-slate-200 font-sans relative transition-colors duration-300 ${appTheme === 'light' ? 'app-light-mode' : ''}`}>
-        <Sidebar 
-          currentUser={currentUser} 
-          onOpenAuth={() => setIsAuthModalOpen(true)} 
-          appTheme={appTheme}
-          onToggleTheme={handleToggleTheme}
-          posts={posts}
-          onHashtagClick={setSearchQuery}
-        />
-        <main className="flex-1 overflow-y-auto pb-24 lg:pb-8 relative flex flex-col items-center">
-          <div className="w-full max-w-[640px] px-4 pt-4">
+    <>
+    <div className={`flex min-h-screen bg-[#0c0a13] text-slate-200 font-sans relative transition-colors duration-300 ${appTheme === 'light' ? 'app-light-mode' : ''}`}>
+      <Sidebar 
+        currentUser={currentUser} 
+        onOpenAuth={() => setIsAuthModalOpen(true)} 
+        appTheme={appTheme}
+        onToggleTheme={handleToggleTheme}
+        posts={posts}
+        onHashtagClick={setSearchQuery}
+      />
+      <main className={`flex-1 relative flex flex-col items-center ${
+        isChatRoute 
+          ? "w-full h-[calc(100vh-64px)] lg:h-screen overflow-hidden pb-0" 
+          : "w-full overflow-y-auto pb-24 lg:pb-8"
+      }`}>
+        {!isChatRoute && (
+          <div className="w-full max-w-[640px] px-2 sm:px-4 pt-4">
             {isSupabaseConfigured ? (
               <div className="mb-4 flex items-center justify-between p-3 rounded-2xl bg-purple-950/20 border border-purple-500/10 text-xs text-purple-300">
                 <div className="flex items-center gap-2">
@@ -656,8 +663,9 @@ export default function App() {
               </div>
             ) : null}
           </div>
-          <div className="w-full max-w-[640px]">
-             <Routes>
+        )}
+        <div className={`w-full max-w-[640px] ${isChatRoute ? "flex-1 h-full flex flex-col overflow-hidden" : ""}`}>
+           <Routes>
               <Route 
                 path="/" 
                 element={
@@ -718,7 +726,7 @@ export default function App() {
               <Route 
                 path="/search" 
                 element={
-                  <div className="w-full py-8 px-4 relative z-10">
+                  <div className="w-full py-4 sm:py-8 px-2 sm:px-4 relative z-10">
                     <h1 className="text-2xl font-semibold tracking-tight text-white mb-6 px-2">Pesquisar</h1>
                     <div className="mb-8 px-2">
                       <div className="relative">
@@ -842,12 +850,12 @@ export default function App() {
                 element={<RedditUniversePage />} 
               />
             </Routes>
-          </div>
-        </main>
-        <Link to="/create" className="fixed bottom-20 md:bottom-8 right-6 md:right-8 w-14 h-14 bg-purple-600 hover:bg-purple-700 text-white rounded-full flex items-center justify-center shadow-[0_4px_20px_rgba(255,77,109,0.35)] transition-all z-50">
-          <Plus className="w-6 h-6" />
-        </Link>
-      </div>
+        </div>
+      </main>
+      <Link to="/create" className="fixed bottom-[76px] lg:bottom-8 left-1/2 -translate-x-1/2 lg:left-auto lg:translate-x-0 lg:right-8 w-12 h-12 lg:w-14 lg:h-14 bg-purple-600 hover:bg-purple-700 text-white rounded-full flex items-center justify-center shadow-[0_4px_24px_rgba(147,51,234,0.5)] transition-all z-50 lg:shadow-[0_4px_20px_rgba(255,77,109,0.35)]">
+        <Plus className="w-5 h-5 lg:w-6 lg:h-6" />
+      </Link>
+    </div>
 
       <AuthModal 
         isOpen={isAuthModalOpen} 
@@ -910,6 +918,6 @@ export default function App() {
           <span>{toast.message}</span>
         </div>
       )}
-    </BrowserRouter>
+    </>
   );
 }
