@@ -637,7 +637,7 @@ export default function App() {
           posts={posts}
           onHashtagClick={setSearchQuery}
         />
-        <main className="flex-1 overflow-y-auto pb-24 md:pb-8 relative flex flex-col items-center">
+        <main className="flex-1 overflow-y-auto pb-24 lg:pb-8 relative flex flex-col items-center">
           <div className="w-full max-w-[640px] px-4 pt-4">
             {isSupabaseConfigured ? (
               <div className="mb-4 flex items-center justify-between p-3 rounded-2xl bg-purple-950/20 border border-purple-500/10 text-xs text-purple-300">

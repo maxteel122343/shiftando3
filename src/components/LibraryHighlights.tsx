@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { MOCK_EBOOKS } from '../data/ebooks';
 import { EBook, User } from '../types';
 import { EBookReader } from './EBookReader';
@@ -32,6 +32,7 @@ export function LibraryHighlights({
   const [savedIds, setSavedIds] = useState<string[]>(getSavedEBookIds());
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const isAdjustingScroll = useRef(false);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeftState, setScrollLeftState] = useState(0);
@@ -115,36 +116,50 @@ export function LibraryHighlights({
       ]
     : [];
 
-  // Repeat the books to allow infinite looping scroll
-  const REPEATED_EBOOKS = Array.from({ length: 5 }).flatMap((_, i) => 
-    shiftedEbooks.map((ebook, ebIdx) => ({
-      ...ebook,
-      uniqueId: `${ebook.id}_carousel_${i}_${ebIdx}`
-    }))
-  );
+  // Repeat the books 3 times to allow infinite looping scroll
+  const carouselEbooks = useMemo(() => {
+    return Array.from({ length: 3 }).flatMap((_, i) => 
+      shiftedEbooks.map((ebook, ebIdx) => ({
+        ...ebook,
+        uniqueId: `${ebook.id}_carousel_${i}_${ebIdx}`
+      }))
+    );
+  }, [shiftedEbooks]);
 
-  // Scroll to the center on mount
+  // Scroll exactly to the start of the center block (Block 1) on mount
   useEffect(() => {
-    if (containerRef.current) {
+    if (containerRef.current && shiftedEbooks.length > 0) {
       const container = containerRef.current;
       requestAnimationFrame(() => {
-        container.scrollLeft = (container.scrollWidth - container.clientWidth) / 2;
+        const blockWidth = container.scrollWidth / 3;
+        isAdjustingScroll.current = true;
+        container.scrollLeft = blockWidth;
       });
     }
-  }, [customEbooks]);
+  }, [customEbooks, shiftedEbooks.length]);
 
   // Handle looping logic on scroll
   const handleScroll = () => {
-    if (containerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
-      const offset = scrollWidth / 3;
+    if (!containerRef.current || shiftedEbooks.length === 0) return;
 
-      if (scrollLeft < 100) {
-        containerRef.current.scrollLeft = scrollLeft + offset;
-      }
-      else if (scrollLeft + clientWidth > scrollWidth - 100) {
-        containerRef.current.scrollLeft = scrollLeft - offset;
-      }
+    if (isAdjustingScroll.current) {
+      isAdjustingScroll.current = false;
+      return;
+    }
+
+    const container = containerRef.current;
+    const { scrollLeft, scrollWidth, clientWidth } = container;
+    const blockWidth = scrollWidth / 3;
+
+    // If we scroll too far left (into Block 0), shift to center block (Block 1)
+    if (scrollLeft < blockWidth - 100) {
+      isAdjustingScroll.current = true;
+      container.scrollLeft = scrollLeft + blockWidth;
+    }
+    // If we scroll too far right (into Block 2), shift back to center block (Block 1)
+    else if (scrollLeft + clientWidth > blockWidth * 2 + 100) {
+      isAdjustingScroll.current = true;
+      container.scrollLeft = scrollLeft - blockWidth;
     }
   };
 
@@ -256,7 +271,7 @@ export function LibraryHighlights({
         onMouseMove={handleMouseMove}
         className="flex gap-4 overflow-x-auto pb-4 custom-scrollbar px-2 cursor-grab active:cursor-grabbing select-none"
       >
-        {REPEATED_EBOOKS.map((ebook) => {
+        {carouselEbooks.map((ebook) => {
           const isAuthor = ebook.authorId === currentUser.id;
           const isPurchased = !ebook.isPaid || isAuthor || purchasedIds.includes(ebook.id);
           const requiresPrePurchase = ebook.isPaid && !isPurchased && ebook.lockType === 'full';
