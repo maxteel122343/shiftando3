@@ -630,7 +630,7 @@ export default function App() {
 
   return (
     <>
-    <div className={`flex min-h-screen bg-[#0c0a13] text-slate-200 font-sans relative transition-colors duration-300 ${appTheme === 'light' ? 'app-light-mode' : ''}`}>
+    <div className={`flex ${isChatRoute ? 'h-screen overflow-hidden' : 'min-h-screen'} bg-[#0c0a13] text-slate-200 font-sans relative transition-colors duration-300 ${appTheme === 'light' ? 'app-light-mode' : ''}`}>
       <Sidebar 
         currentUser={currentUser} 
         onOpenAuth={() => setIsAuthModalOpen(true)} 
@@ -639,13 +639,13 @@ export default function App() {
         posts={posts}
         onHashtagClick={setSearchQuery}
       />
-      <main className={`flex-1 relative flex flex-col items-center ${
+      <main className={`flex-1 relative flex flex-col ${
         isChatRoute 
-          ? "w-full h-[calc(100vh-64px)] lg:h-screen overflow-hidden pb-0" 
-          : "w-full overflow-y-auto pb-24 lg:pb-8"
+          ? "overflow-hidden" 
+          : "overflow-y-auto pb-24 lg:pb-8 items-center"
       }`}>
         {!isChatRoute && (
-          <div className="w-full max-w-[640px] px-2 sm:px-4 pt-4">
+          <div className="w-full max-w-[640px] mx-auto px-2 sm:px-4 pt-4">
             {isSupabaseConfigured ? (
               <div className="mb-4 flex items-center justify-between p-3 rounded-2xl bg-purple-950/20 border border-purple-500/10 text-xs text-purple-300">
                 <div className="flex items-center gap-2">
@@ -664,7 +664,11 @@ export default function App() {
             ) : null}
           </div>
         )}
-        <div className={`w-full max-w-[640px] ${isChatRoute ? "flex-1 h-full flex flex-col overflow-hidden" : ""}`}>
+        <div className={`w-full ${
+          isChatRoute 
+            ? "flex-1 h-full flex flex-col overflow-hidden" 
+            : "max-w-[640px] mx-auto"
+        }`}>
            <Routes>
               <Route 
                 path="/" 

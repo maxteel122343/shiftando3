@@ -218,7 +218,7 @@ export function Feed({
         )}
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-0 sm:space-y-5">
         {sortedPosts.length === 0 && selectedHashtag ? (
           <div className="text-center py-20 bg-white/[0.02] rounded-[28px] border border-white/5 border-dashed">
             <p className="text-slate-500 font-medium text-[15px]">Nenhum post encontrado com essa hashtag.</p>

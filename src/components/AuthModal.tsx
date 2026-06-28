@@ -301,23 +301,19 @@ export function AuthModal({ isOpen, onClose, users, currentUser, onAuthenticate,
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end lg:items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
       {/* Backdrop */}
       <div 
         onClick={onClose}
         className="absolute inset-0 bg-black/85 backdrop-blur-md"
       />
 
-      {/* Content Card — full screen on mobile, card on desktop */}
-      <div className="relative bg-[#15121e] border border-white/5 w-full lg:max-w-md rounded-t-[32px] lg:rounded-[32px] overflow-hidden shadow-2xl flex flex-col max-h-[93svh] lg:max-h-[90vh] z-10 animate-in fade-in slide-in-from-bottom-4 lg:slide-in-from-bottom-0 lg:zoom-in duration-200">
-        {/* Drag handle — mobile only */}
-        <div className="flex justify-center pt-3 pb-1 lg:hidden shrink-0">
-          <div className="w-10 h-1 rounded-full bg-white/15" />
-        </div>
+      {/* Content Card */}
+      <div className="relative bg-[#15121e] border border-white/5 w-full max-w-[420px] rounded-[32px] overflow-hidden shadow-2xl flex flex-col max-h-[88svh] z-10 animate-in fade-in zoom-in-95 duration-200">
         <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#3a1a73]/20 to-transparent pointer-events-none"></div>
         
         {/* Header */}
-        <div className="flex items-center justify-between px-6 pt-4 lg:pt-6 pb-4 border-b border-white/5 relative z-10">
+        <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-white/5 relative z-10 shrink-0">
           <div className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-purple-400" />
             <h2 className="text-lg font-bold text-white">Minha Conta Shifting</h2>

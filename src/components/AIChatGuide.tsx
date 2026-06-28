@@ -333,7 +333,7 @@ export function AIChatGuide() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col px-2 sm:px-4 pt-4 sm:pt-6 pb-0 relative z-10 overflow-hidden">
+    <div className="w-full h-full flex flex-col px-2 sm:px-4 pt-4 sm:pt-6 pb-16 lg:pb-0 relative z-10 overflow-hidden">
       {/* Heading */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-4 mb-3 sm:mb-6 px-2 shrink-0">
         <div>
