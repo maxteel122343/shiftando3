@@ -58,7 +58,7 @@ export function EBookReader({ ebook: propEBook, onClose, onOpenCreator, isPurcha
   const [theme, setTheme] = useState<Theme>('midnight');
   const [fontSize, setFontSize] = useState<FontSize>('lg');
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeChapter, setActiveChapter] = useState<string>('');
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -992,7 +992,17 @@ export function EBookReader({ ebook: propEBook, onClose, onOpenCreator, isPurcha
             id="reader-content" 
             className="flex-1 overflow-y-auto p-6 md:p-16 relative flex justify-center custom-scrollbar scroll-smooth"
           >
-            <div className="max-w-2xl w-full">
+            <div className="max-w-2xl w-full flex flex-col">
+              {!isSidebarOpen && (
+                <button
+                  onClick={() => setIsSidebarOpen(true)}
+                  className={`mb-4 flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold cursor-pointer self-start transition-all duration-200 ${currentStyle.buttonBg} border-current/10`}
+                >
+                  <Menu className="w-3.5 h-3.5 text-purple-500" />
+                  <span>Capítulos</span>
+                </button>
+              )}
+
               {/* Header decor inside text layout */}
               <div className="text-center mb-12 pb-8 border-b border-current/10">
                 <p className="text-xs tracking-[0.2em] uppercase font-mono mb-2 opacity-60">
