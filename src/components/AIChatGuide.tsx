@@ -5,7 +5,8 @@ import {
   isConfigured as isSupabaseConfigured,
   getChatMessages,
   saveChatMessage,
-  clearChatMessages
+  clearChatMessages,
+  logCreditRequest
 } from '../utils/supabase';
 
 interface Message {
@@ -249,7 +250,7 @@ export function AIChatGuide() {
       const botMsgError: Message = {
         id: (Date.now() + 1).toString(),
         role: 'model',
-        content: `⚠️ **Ops! Encontrei um obstáculo de energia:**\n\n${error?.message || 'Houve um erro ao sintonizar com a inteligência artificial.'}\n\n*Dica: Verifique se sua chave de API está correta ou altere o modelo nas configurações acima.*`,
+        content: `A IA está pensando na sua resposta, aguarde uns segundos...`,
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, botMsgError]);
@@ -318,14 +319,26 @@ export function AIChatGuide() {
     alert(`Pagamento simulado com sucesso! ${selectedPixOption.credits} créditos foram adicionados à sua conta. ✨`);
   };
 
-  const handleRedeemTestCredits = () => {
-    if (testInputValue.trim() === '+5 creditos para mim') {
+  const handleRedeemTestCredits = async () => {
+    const cleaned = testInputValue.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    if (cleaned === 'quero mais cinco creditos') {
       const nextCredits = credits + 5;
       setCredits(nextCredits);
       localStorage.setItem('shifting_ai_credits', String(nextCredits));
       setShowCreditsTestModal(false);
       setTestInputValue('');
       setTestInputError(false);
+
+      // Log credit request to database
+      try {
+        const storedUser = localStorage.getItem('shifting_current_user');
+        const currentUser = storedUser ? JSON.parse(storedUser) : null;
+        const currentUserId = currentUser ? currentUser.id : 'user_me';
+        await logCreditRequest(currentUserId, 5);
+      } catch (err) {
+        console.warn("Erro ao registrar recarga no Supabase:", err);
+      }
+
       alert('✨ 5 créditos foram adicionados com sucesso!');
     } else {
       setTestInputError(true);
@@ -514,13 +527,13 @@ export function AIChatGuide() {
             type="text"
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
-            placeholder={credits <= 0 ? "Você não tem créditos. Clique em recarregar acima." : "Escreva seu script, dúvida ou método..."}
-            disabled={isLoading || credits <= 0}
+            placeholder="Escreva seu script, dúvida ou método..."
+            disabled={isLoading}
             className="flex-1 bg-[#14121f] border border-white/5 app-light-mode:bg-slate-50 app-light-mode:border-slate-200 app-light-mode:text-slate-800 app-light-mode:placeholder-slate-400 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-transparent transition-all disabled:opacity-50"
           />
           <button
             type="submit"
-            disabled={!inputMessage.trim() || isLoading || credits <= 0}
+            disabled={!inputMessage.trim() || isLoading}
             className="p-3 bg-gradient-to-r from-purple-600 to-purple-500 text-white rounded-xl hover:scale-105 active:scale-95 transition-all shadow-[0_4px_15px_rgba(255,77,109,0.3)] app-light-mode:shadow-none disabled:opacity-50 disabled:scale-100 disabled:shadow-none shrink-0 cursor-pointer"
             title="Enviar Mensagem"
           >
@@ -657,7 +670,7 @@ export function AIChatGuide() {
               <div className="p-4 bg-white/[0.02] border border-white/5 rounded-2xl text-xs text-slate-300 leading-relaxed text-left">
                 Para confirmar que você está utilizando ativamente o Guia de Shifting, digite exatamente a frase abaixo no campo de texto:
                 <div className="mt-3 p-3 bg-[#0a0810] border border-white/10 rounded-xl text-center font-bold text-purple-400 select-all selection:bg-purple-500/30 selection:text-white font-mono tracking-wide">
-                  +5 creditos para mim
+                  quero mais cinco créditos
                 </div>
               </div>
 
@@ -674,7 +687,7 @@ export function AIChatGuide() {
                 />
                 {testInputError && (
                   <p className="text-[10px] text-rose-400 mt-1.5 text-left font-medium">
-                    ⚠️ A frase digitada está incorreta. Digite exatamente "+5 creditos para mim".
+                    ⚠️ A frase digitada está incorreta. Digite exatamente "quero mais cinco créditos".
                   </p>
                 )}
               </div>

@@ -921,3 +921,22 @@ function rowToEBook(row: any, pagesRows: any[] = []): EBook {
     pages: pages
   };
 }
+
+// ---------------- CREDIT REQUEST LOGGING ----------------
+export async function logCreditRequest(userId: string, amount: number = 5): Promise<boolean> {
+  if (!supabase || !isSupabaseOnline) return false;
+  try {
+    const { error } = await supabase.from('credit_requests').insert({
+      user_id: toUUID(userId),
+      amount: amount
+    });
+    if (error) {
+      console.warn('Erro ao registrar solicitação de créditos no Supabase:', error.message);
+      return false;
+    }
+    return true;
+  } catch (err: any) {
+    console.warn('Erro ao registrar solicitação de créditos:', err?.message || err);
+    return false;
+  }
+}

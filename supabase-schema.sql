@@ -310,3 +310,21 @@ LEFT JOIN (
     FROM public.comments 
     GROUP BY post_id
 ) c ON p.id = c.post_id;
+
+-- 12. Create Credit Requests Table (Logs user requests for credit refills)
+CREATE TABLE IF NOT EXISTS public.credit_requests (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    user_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
+    amount INT DEFAULT 5 NOT NULL,
+    requested_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE public.credit_requests ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Users can insert their own credit requests" ON public.credit_requests;
+CREATE POLICY "Users can insert their own credit requests" ON public.credit_requests
+    FOR INSERT WITH CHECK (auth.uid() = user_id OR (auth.uid() IS NULL AND user_id = '00000000-0000-0000-0000-000000000000'::UUID));
+
+DROP POLICY IF EXISTS "Users can view their own credit requests" ON public.credit_requests;
+CREATE POLICY "Users can view their own credit requests" ON public.credit_requests
+    FOR SELECT USING (auth.uid() = user_id);
