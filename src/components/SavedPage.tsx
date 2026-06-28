@@ -3,6 +3,7 @@ import { Bookmark, BookOpen, Heart, Trash2, ArrowLeft } from 'lucide-react';
 import { Post, User, EBook } from '../types';
 import { PostCard } from './PostCard';
 import { getSavedEBookIds, getAllEBooks, toggleSaveEBook, toggleLikeEBook, getLikedEBookIds } from '../utils/ebookStore';
+import { MOCK_EBOOKS } from '../data/ebooks';
 import { EBookReader } from './EBookReader';
 
 interface SavedPageProps {
@@ -34,9 +35,18 @@ export function SavedPage({
   const [readingEBook, setReadingEBook] = useState<EBook | null>(null);
 
   // Load saved e-books
-  const loadSavedEBooks = () => {
+  const loadSavedEBooks = async () => {
     const savedIds = getSavedEBookIds();
-    const allBooks = getAllEBooks();
+    let allBooks: EBook[] = [];
+
+    const { isConfigured, getEBooksSupabase } = await import('../utils/supabase');
+    if (isConfigured) {
+      const dbBooks = await getEBooksSupabase();
+      allBooks = [...dbBooks, ...MOCK_EBOOKS];
+    } else {
+      allBooks = getAllEBooks();
+    }
+
     const filtered = allBooks.filter(book => savedIds.includes(book.id));
     setSavedEBooks(filtered);
     setLikedEBookIds(getLikedEBookIds());

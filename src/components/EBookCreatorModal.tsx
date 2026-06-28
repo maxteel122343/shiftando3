@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { X, Upload, Sparkles, BookOpen, ChevronLeft, ChevronRight, Type, AlignLeft, AlignCenter, AlignJustify, Bold, Italic, Plus, Trash2, Download, Check, HelpCircle, Code, Music, Volume2, Sliders, Play, Square } from 'lucide-react';
 import { User, EBook, EBookPage, EBookAudioTrack } from '../types';
 import { jsPDF } from 'jspdf';
+import { isConfigured as isSupabaseConfigured, deleteEBookSupabase, getEBooksSupabase } from '../utils/supabase';
 
 interface EBookCreatorModalProps {
   isOpen: boolean;
@@ -61,24 +62,40 @@ export function EBookCreatorModal({ isOpen, onClose, currentUser, onPublish }: E
 
   // Load custom ebooks published by current user
   React.useEffect(() => {
-    if (isOpen) {
-      const stored = localStorage.getItem('shifting_ebooks');
-      if (stored) {
-        try {
-          const parsed: EBook[] = JSON.parse(stored);
-          const filtered = parsed.filter(b => b.authorId === currentUser.id);
+    async function loadUserEBooks() {
+      if (isOpen) {
+        if (isSupabaseConfigured && currentUser.id !== 'user_me') {
+          const dbEbooks = await getEBooksSupabase();
+          const filtered = dbEbooks.filter(b => b.authorId === currentUser.id);
           setUserEbooks(filtered);
-        } catch (e) {
-          console.error("Error loading user ebooks:", e);
+        } else {
+          const stored = localStorage.getItem('shifting_ebooks');
+          if (stored) {
+            try {
+              const parsed: EBook[] = JSON.parse(stored);
+              const filtered = parsed.filter(b => b.authorId === currentUser.id);
+              setUserEbooks(filtered);
+            } catch (e) {
+              console.error("Error loading user ebooks:", e);
+            }
+          } else {
+            setUserEbooks([]);
+          }
         }
-      } else {
-        setUserEbooks([]);
       }
     }
+    loadUserEBooks();
   }, [isOpen, currentUser.id]);
 
-  const handleDeleteEBook = (ebookId: string) => {
+  const handleDeleteEBook = async (ebookId: string) => {
     if (window.confirm('Tem certeza que deseja excluir este e-book? Esta ação é irreversível.')) {
+      if (isSupabaseConfigured && currentUser.id !== 'user_me') {
+        const success = await deleteEBookSupabase(ebookId, currentUser.id);
+        if (!success) {
+          console.warn("Falha ao excluir e-book do Supabase.");
+        }
+      }
+
       const stored = localStorage.getItem('shifting_ebooks');
       if (stored) {
         try {

@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { User, Post, Comment } from '../types';
+import { User, Post, Comment, EBook, EBookPage } from '../types';
 
 const supabaseUrl = 
   import.meta.env?.VITE_SUPABASE_URL || 
@@ -744,3 +744,180 @@ export async function migrateGuestData(
   }
 }
 
+// ---------------- CUSTOM EBOOKS & PAGES ----------------
+export async function getEBooksSupabase(): Promise<EBook[]> {
+  if (!supabase || !isSupabaseOnline) return [];
+
+  try {
+    // Fetch all ebooks
+    const { data: ebooksData, error: ebooksError } = await supabase
+      .from('ebooks')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (ebooksError) {
+      console.warn('Erro ao buscar e-books do Supabase:', ebooksError.message);
+      return [];
+    }
+
+    if (!ebooksData || ebooksData.length === 0) return [];
+
+    // Fetch all ebook pages
+    const { data: pagesData, error: pagesError } = await supabase
+      .from('ebook_pages')
+      .select('*')
+      .order('page_index', { ascending: true });
+
+    if (pagesError) {
+      console.warn('Erro ao buscar páginas de e-books do Supabase:', pagesError.message);
+      return ebooksData.map(row => rowToEBook(row, []));
+    }
+
+    return ebooksData.map(row => rowToEBook(row, pagesData || []));
+  } catch (error: any) {
+    console.warn('Erro ao acessar e-books no Supabase:', error?.message || error);
+    return [];
+  }
+}
+
+export async function createEBookSupabase(ebook: EBook): Promise<boolean> {
+  if (!supabase || !isSupabaseOnline) return false;
+
+  const bookRow = ebookToRow(ebook);
+
+  try {
+    // 1. Insert or update the ebook metadata row
+    const { error: ebookError } = await supabase
+      .from('ebooks')
+      .upsert(bookRow, { onConflict: 'id' });
+
+    if (ebookError) {
+      console.warn('Erro ao salvar e-book no Supabase:', ebookError.message);
+      return false;
+    }
+
+    // 2. Delete existing pages to avoid duplicates before inserting updated ones
+    await supabase
+      .from('ebook_pages')
+      .delete()
+      .eq('ebook_id', bookRow.id);
+
+    // 3. Insert new pages if they exist
+    if (ebook.pages && ebook.pages.length > 0) {
+      const pagesRows = ebook.pages.map((p, i) => pageToRow(p, ebook.id, i));
+      const { error: pagesError } = await supabase
+        .from('ebook_pages')
+        .insert(pagesRows);
+
+      if (pagesError) {
+        console.warn('Erro ao salvar páginas do e-book no Supabase:', pagesError.message);
+        return false;
+      }
+    }
+
+    return true;
+  } catch (error: any) {
+    console.warn('Falha ao salvar e-book completo no Supabase:', error?.message || error);
+    return false;
+  }
+}
+
+export async function deleteEBookSupabase(ebookId: string, authorId: string): Promise<boolean> {
+  if (!supabase || !isSupabaseOnline) return false;
+  const bookUuid = toUUID(ebookId);
+  const authorUuid = toUUID(authorId);
+
+  try {
+    const { error } = await supabase
+      .from('ebooks')
+      .delete()
+      .eq('id', bookUuid)
+      .eq('author_id', authorUuid);
+
+    if (error) {
+      console.warn('Erro ao excluir e-book no Supabase:', error.message);
+      return false;
+    }
+    return true;
+  } catch (error: any) {
+    console.warn('Falha ao excluir e-book no Supabase:', error?.message || error);
+    return false;
+  }
+}
+
+// --- Mappers to bridge frontend CamelCase types and DB SnakeCase columns ---
+function ebookToRow(ebook: EBook) {
+  return {
+    id: toUUID(ebook.id),
+    title: ebook.title,
+    cover_image: ebook.coverImage || null,
+    description: ebook.description || null,
+    author_id: toUUID(ebook.authorId || 'user_me'),
+    author_name: ebook.authorName || null,
+    is_paid: ebook.isPaid || false,
+    price: ebook.price || 0.0,
+    lock_type: ebook.lockType || 'preview_30',
+    allow_download: ebook.allowDownload !== false,
+    is_pdf_ready: ebook.isPdfReady || false,
+    uploaded_pdf: ebook.uploadedPdf || null,
+    pdf_file_name: ebook.pdfFileName || null,
+    audio_tracks: ebook.audioTracks || []
+  };
+}
+
+function pageToRow(page: EBookPage, ebookId: string, index: number) {
+  return {
+    id: toUUID(page.id),
+    ebook_id: toUUID(ebookId),
+    title: page.title,
+    content: page.content,
+    image: page.image || null,
+    images: page.images || [],
+    font_family: page.fontFamily || 'serif',
+    color: page.color || null,
+    bg: page.bg || null,
+    align: page.align || 'justify',
+    is_bold: page.isBold || false,
+    is_italic: page.isItalic || false,
+    page_index: index
+  };
+}
+
+function rowToEBook(row: any, pagesRows: any[] = []): EBook {
+  const pages: EBookPage[] = pagesRows
+    .filter(p => p.ebook_id === row.id)
+    .sort((a, b) => (a.page_index || 0) - (b.page_index || 0))
+    .map(p => ({
+      id: p.id,
+      title: p.title,
+      content: p.content,
+      image: p.image || undefined,
+      images: p.images || [],
+      fontFamily: p.font_family || 'serif',
+      color: p.color || '',
+      bg: p.bg || '',
+      align: p.align || 'justify',
+      isBold: p.is_bold || false,
+      isItalic: p.is_italic || false
+    }));
+
+  return {
+    id: row.id,
+    title: row.title,
+    coverImage: row.cover_image || '',
+    content: row.content || '',
+    description: row.description || '',
+    authorId: row.author_id,
+    authorName: row.author_name || '',
+    createdAt: new Date(row.created_at).getTime(),
+    isPaid: row.is_paid,
+    price: row.price ? Number(row.price) : 0,
+    lockType: row.lock_type,
+    allowDownload: row.allow_download,
+    isPdfReady: row.is_pdf_ready,
+    uploadedPdf: row.uploaded_pdf || undefined,
+    pdfFileName: row.pdf_file_name || undefined,
+    audioTracks: row.audio_tracks || [],
+    pages: pages
+  };
+}

@@ -71,7 +71,43 @@ CREATE TABLE IF NOT EXISTS public.saved_ebooks (
     UNIQUE(user_id, ebook_id)
 );
 
--- 7b. Create Messages Table for Shifting AI Chat Guide
+-- 7b. Create Ebooks Table
+CREATE TABLE IF NOT EXISTS public.ebooks (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    title TEXT NOT NULL,
+    cover_image TEXT,
+    description TEXT,
+    author_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
+    author_name TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+    is_paid BOOLEAN DEFAULT false NOT NULL,
+    price NUMERIC(10, 2) DEFAULT 0.0,
+    lock_type TEXT DEFAULT 'preview_30',
+    allow_download BOOLEAN DEFAULT true NOT NULL,
+    is_pdf_ready BOOLEAN DEFAULT false NOT NULL,
+    uploaded_pdf TEXT,
+    pdf_file_name TEXT,
+    audio_tracks JSONB DEFAULT '[]'::JSONB
+);
+
+-- 7c. Create Ebook Pages Table
+CREATE TABLE IF NOT EXISTS public.ebook_pages (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    ebook_id UUID REFERENCES public.ebooks(id) ON DELETE CASCADE NOT NULL,
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    image TEXT,
+    images JSONB DEFAULT '[]'::JSONB,
+    font_family TEXT DEFAULT 'serif',
+    color TEXT,
+    bg TEXT,
+    align TEXT DEFAULT 'justify',
+    is_bold BOOLEAN DEFAULT false,
+    is_italic BOOLEAN DEFAULT false,
+    page_index INT DEFAULT 0
+);
+
+-- 7d. Create Messages Table for Shifting AI Chat Guide
 CREATE TABLE IF NOT EXISTS public.messages (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     role TEXT NOT NULL,
@@ -86,6 +122,8 @@ ALTER TABLE public.likes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.comments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.saves ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.saved_ebooks ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.ebooks ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.ebook_pages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.messages ENABLE ROW LEVEL SECURITY;
 
 -- 9. Create RLS Policies (Safely dropping first to avoid existing policy errors)
@@ -179,6 +217,40 @@ CREATE POLICY "Users can update their saved ebooks" ON public.saved_ebooks
 DROP POLICY IF EXISTS "Users can delete their saved ebooks" ON public.saved_ebooks;
 CREATE POLICY "Users can delete their saved ebooks" ON public.saved_ebooks
     FOR DELETE USING (auth.uid() = user_id);
+
+-- EBOOKS Policies
+DROP POLICY IF EXISTS "Ebooks are viewable by everyone" ON public.ebooks;
+CREATE POLICY "Ebooks are viewable by everyone" ON public.ebooks
+    FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Authenticated users can create ebooks" ON public.ebooks;
+CREATE POLICY "Authenticated users can create ebooks" ON public.ebooks
+    FOR INSERT WITH CHECK (auth.uid() = author_id);
+
+DROP POLICY IF EXISTS "Users can update their own ebooks" ON public.ebooks;
+CREATE POLICY "Users can update their own ebooks" ON public.ebooks
+    FOR UPDATE USING (auth.uid() = author_id);
+
+DROP POLICY IF EXISTS "Users can delete their own ebooks" ON public.ebooks;
+CREATE POLICY "Users can delete their own ebooks" ON public.ebooks
+    FOR DELETE USING (auth.uid() = author_id);
+
+-- EBOOK_PAGES Policies
+DROP POLICY IF EXISTS "Ebook pages are viewable by everyone" ON public.ebook_pages;
+CREATE POLICY "Ebook pages are viewable by everyone" ON public.ebook_pages
+    FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Authenticated users can insert ebook pages" ON public.ebook_pages;
+CREATE POLICY "Authenticated users can insert ebook pages" ON public.ebook_pages
+    FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Authenticated users can update ebook pages" ON public.ebook_pages;
+CREATE POLICY "Authenticated users can update ebook pages" ON public.ebook_pages
+    FOR UPDATE USING (true);
+
+DROP POLICY IF EXISTS "Authenticated users can delete ebook pages" ON public.ebook_pages;
+CREATE POLICY "Authenticated users can delete ebook pages" ON public.ebook_pages
+    FOR DELETE USING (true);
 
 -- MESSAGES Policies
 DROP POLICY IF EXISTS "Anyone can read messages" ON public.messages;

@@ -6,6 +6,7 @@ import { EBookCreatorModal } from './EBookCreatorModal';
 import { EBookPurchaseModal } from './EBookPurchaseModal';
 import { Sparkles, BookOpen, Lock, Heart, Bookmark } from 'lucide-react';
 import { getLikedEBookIds, toggleLikeEBook, getSavedEBookIds, toggleSaveEBook } from '../utils/ebookStore';
+import { isConfigured as isSupabaseConfigured, getEBooksSupabase, createEBookSupabase, deleteEBookSupabase } from '../utils/supabase';
 
 interface LibraryHighlightsProps {
   currentUser: User;
@@ -55,16 +56,21 @@ export function LibraryHighlights({
   useEffect(() => {
     const updateLikes = () => setLikedIds(getLikedEBookIds());
     const updateSaves = () => setSavedIds(getSavedEBookIds());
-    const updateEBooks = () => {
-      const stored = localStorage.getItem('shifting_ebooks');
-      if (stored) {
-        try {
-          setCustomEbooks(JSON.parse(stored));
-        } catch (e) {
-          console.error("Error loading custom ebooks", e);
-        }
+    const updateEBooks = async () => {
+      if (isSupabaseConfigured) {
+        const dbEbooks = await getEBooksSupabase();
+        setCustomEbooks(dbEbooks);
       } else {
-        setCustomEbooks([]);
+        const stored = localStorage.getItem('shifting_ebooks');
+        if (stored) {
+          try {
+            setCustomEbooks(JSON.parse(stored));
+          } catch (e) {
+            console.error("Error loading custom ebooks", e);
+          }
+        } else {
+          setCustomEbooks([]);
+        }
       }
     };
 
@@ -79,16 +85,25 @@ export function LibraryHighlights({
     };
   }, []);
 
-  // Load custom ebooks from localStorage on mount
+  // Load custom ebooks from localStorage or Supabase on mount
   useEffect(() => {
-    const stored = localStorage.getItem('shifting_ebooks');
-    if (stored) {
-      try {
-        setCustomEbooks(JSON.parse(stored));
-      } catch (e) {
-        console.error("Error loading custom ebooks", e);
+    async function loadInitialEBooks() {
+      if (isSupabaseConfigured) {
+        const dbEbooks = await getEBooksSupabase();
+        setCustomEbooks(dbEbooks);
+      } else {
+        const stored = localStorage.getItem('shifting_ebooks');
+        if (stored) {
+          try {
+            setCustomEbooks(JSON.parse(stored));
+          } catch (e) {
+            console.error("Error loading custom ebooks", e);
+          }
+        }
       }
     }
+
+    loadInitialEBooks();
 
     const storedPurchased = localStorage.getItem('shifting_purchased_ebooks');
     if (storedPurchased) {
@@ -187,7 +202,14 @@ export function LibraryHighlights({
     containerRef.current.scrollLeft = scrollLeftState - walk;
   };
 
-  const handlePublishNewEBook = (newEbook: EBook) => {
+  const handlePublishNewEBook = async (newEbook: EBook) => {
+    if (isSupabaseConfigured && currentUser.id !== 'user_me') {
+      const success = await createEBookSupabase(newEbook);
+      if (!success) {
+        console.warn("Falha ao salvar e-book no Supabase.");
+      }
+    }
+
     const stored = localStorage.getItem('shifting_ebooks');
     let currentCustom: EBook[] = [];
     if (stored) {
