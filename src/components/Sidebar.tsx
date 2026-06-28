@@ -153,7 +153,10 @@ export function Sidebar({ currentUser, onOpenAuth, appTheme, onToggleTheme, post
       </div>
 
       {/* Mobile Bottom Navigation Bar */}
-      <div className="flex lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#0c0a13]/95 backdrop-blur-lg border-t border-white/5 px-4 items-center justify-around z-40 shadow-[0_-5px_20px_rgba(0,0,0,0.5)]">
+      <div
+        className="flex lg:hidden fixed bottom-0 left-0 right-0 bg-[#0c0a13]/95 backdrop-blur-lg border-t border-white/5 px-4 pt-2 items-center justify-around z-40 shadow-[0_-5px_20px_rgba(0,0,0,0.5)]"
+        style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 8px)' }}
+      >
         {/* Feed Link */}
         <NavLink
           to="/"

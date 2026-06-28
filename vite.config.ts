@@ -5,6 +5,7 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    base: './',   // Required for Capacitor: assets use relative paths in the APK
     plugins: [react(), tailwindcss()],
     define: {
       'process.env.SUPABASE_URL': JSON.stringify(process.env.SUPABASE_URL || ''),

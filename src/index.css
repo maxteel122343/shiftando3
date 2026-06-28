@@ -38,6 +38,56 @@
 }
 
 /* =========================================
+   NATIVE APP MOBILE FEEL
+   ========================================= */
+
+/* Prevent tap highlight flash on all interactive elements */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+/* Allow text selection where needed */
+input, textarea, [contenteditable] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Root fills the full screen including safe areas */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  /* Prevent iOS rubber-band scroll on the root */
+  overscroll-behavior: none;
+}
+
+/* Scrollable containers get rubber-band on themselves only */
+main, .overflow-y-auto, .overflow-y-scroll {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+
+/* Safe area padding utilities — used for bottom nav and content */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.pl-safe {
+  padding-left: env(safe-area-inset-left, 0px);
+}
+.pr-safe {
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* Bottom nav sits above the home indicator */
+.bottom-nav-safe {
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 8px);
+}
+
+/* =========================================
    THEMATIC LIGHT/DARK MODE & GLASSMORPHISM
    ========================================= */
 .bg-\[\#0c0a13\] {

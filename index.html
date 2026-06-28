@@ -1,13 +1,24 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Desire Reality - Comunidade de Relatos Diários</title>
+    <!-- Native app viewport: viewport-fit=cover lets content go under notch/home indicator -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+
+    <!-- PWA / Native shell meta -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Shifting" />
+    <meta name="theme-color" content="#0c0a13" />
+    <meta name="msapplication-navbutton-color" content="#0c0a13" />
+
+    <!-- SEO -->
+    <meta name="description" content="Comunidade de relatos de Shifting — compartilhe sua Desired Reality, leia experiências e aprenda técnicas." />
+    <title>Shifting — Comunidade de Relatos</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-
