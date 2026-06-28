@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Image as ImageIcon, X, Upload, Globe } from 'lucide-react';
+import { Image as ImageIcon, X, Upload, Globe, ArrowLeft } from 'lucide-react';
 import { User, Post } from '../types';
 
 export interface RedditSource {
@@ -65,8 +65,16 @@ export function CreatePost({ currentUser, onPostCreate, initialTitle = '', initi
   };
 
   return (
-    <div className="w-full py-8 px-4 relative z-10">
-      <div className="mb-6 px-2">
+    <div className="w-full py-4 px-2.5 sm:py-8 sm:px-4 relative z-10">
+      <div className="mb-4 sm:mb-6 px-2 flex flex-col items-start">
+        <button
+          onClick={() => navigate('/')}
+          className="mb-3.5 flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold cursor-pointer transition-all duration-200 bg-white/5 border-white/10 hover:bg-white/10 text-slate-300"
+          type="button"
+        >
+          <ArrowLeft className="w-3.5 h-3.5 text-purple-400" />
+          <span>Voltar para o Feed</span>
+        </button>
         <h1 className="text-2xl font-semibold text-white tracking-tight">Criar Post</h1>
       </div>
 
@@ -91,43 +99,43 @@ export function CreatePost({ currentUser, onPostCreate, initialTitle = '', initi
         </div>
       )}
 
-      <div className="bg-[#15121e]/75 dark:bg-[#15121e]/75 app-light-mode:bg-white/80 backdrop-blur-xl border border-white/[0.08] dark:border-white/[0.08] app-light-mode:border-slate-200/50 border-t-white/[0.16] dark:border-t-white/[0.16] app-light-mode:border-t-white/90 rounded-[28px] shadow-[0_20px_50px_rgba(0,0,0,0.3)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] app-light-mode:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.05)] p-6 sm:p-8">
-        <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="bg-[#15121e]/75 dark:bg-[#15121e]/75 app-light-mode:bg-white/80 backdrop-blur-xl border border-white/[0.08] dark:border-white/[0.08] app-light-mode:border-slate-200/50 border-t-white/[0.16] dark:border-t-white/[0.16] app-light-mode:border-t-white/90 rounded-[28px] shadow-[0_20px_50px_rgba(0,0,0,0.3)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] app-light-mode:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.05)] p-4 sm:p-8">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
           <div>
-            <label htmlFor="title" className="block text-[13px] font-medium text-slate-400 mb-2 uppercase tracking-wider">Título</label>
+            <label htmlFor="title" className="block text-xs sm:text-[13px] font-medium text-slate-400 mb-1.5 sm:mb-2 uppercase tracking-wider">Título</label>
             <input
               type="text"
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Ex: Minha primeira mini-shifting para Hogwarts!"
-              className="w-full bg-[#0c0a13] border border-white/5 rounded-2xl px-5 py-3.5 text-[15px] text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/50 transition-all font-medium"
+              className="w-full bg-[#0c0a13] border border-white/5 rounded-2xl px-4 py-3 sm:px-5 sm:py-3.5 text-sm sm:text-[15px] text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/50 transition-all font-medium"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="content" className="block text-[13px] font-medium text-slate-400 mb-2 uppercase tracking-wider">Conteúdo</label>
+            <label htmlFor="content" className="block text-xs sm:text-[13px] font-medium text-slate-400 mb-1.5 sm:mb-2 uppercase tracking-wider">Conteúdo</label>
             <textarea
               id="content"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="Conte o que aconteceu na sua jornada..."
-              rows={8}
-              className="w-full bg-[#0c0a13] border border-white/5 rounded-2xl px-5 py-3.5 text-[15px] text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/50 transition-all resize-none"
+              rows={5}
+              className="w-full bg-[#0c0a13] border border-white/5 rounded-2xl px-4 py-3 sm:px-5 sm:py-3.5 text-sm sm:text-[15px] text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/50 transition-all resize-none"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="hashtags" className="block text-[13px] font-medium text-slate-400 mb-2 uppercase tracking-wider">Hashtags</label>
+            <label htmlFor="hashtags" className="block text-xs sm:text-[13px] font-medium text-slate-400 mb-1.5 sm:mb-2 uppercase tracking-wider">Hashtags</label>
             <input
               type="text"
               id="hashtags"
               value={hashtags}
               onChange={(e) => setHashtags(e.target.value)}
               placeholder="#dr #metodoraven #shifting"
-              className="w-full bg-[#0c0a13] border border-white/5 rounded-2xl px-5 py-3.5 text-[15px] text-purple-300 placeholder-slate-500 focus:outline-none focus:border-purple-500/50 transition-all"
+              className="w-full bg-[#0c0a13] border border-white/5 rounded-2xl px-4 py-3 sm:px-5 sm:py-3.5 text-sm sm:text-[15px] text-purple-300 placeholder-slate-500 focus:outline-none focus:border-purple-500/50 transition-all"
             />
           </div>
 
@@ -149,7 +157,7 @@ export function CreatePost({ currentUser, onPostCreate, initialTitle = '', initi
               </div>
 
               {/* Paste URL Option */}
-              <div className="bg-[#0c0a13] border border-white/5 rounded-2xl p-5 flex flex-col justify-center min-h-[120px]">
+              <div className="hidden sm:flex bg-[#0c0a13] border border-white/5 rounded-2xl p-5 flex-col justify-center min-h-[120px]">
                 <span className="text-xs text-slate-400 font-medium mb-2 text-left">Ou cole uma URL de imagem:</span>
                 <div className="relative flex">
                   <input
@@ -205,11 +213,11 @@ export function CreatePost({ currentUser, onPostCreate, initialTitle = '', initi
             </div>
           )}
 
-          <div className="pt-6 flex justify-end">
+          <div className="pt-4 sm:pt-6 flex justify-end">
             <button
               type="submit"
               disabled={!title.trim() || !content.trim()}
-              className="px-8 py-3.5 bg-purple-600 text-white font-medium rounded-full hover:bg-purple-700 disabled:opacity-50 disabled:hover:bg-purple-600 transition-colors shadow-[0_4px_15px_rgba(255,77,109,0.25)] cursor-pointer"
+              className="w-full sm:w-auto px-8 py-3 sm:py-3.5 bg-purple-600 text-white font-medium rounded-full hover:bg-purple-700 disabled:opacity-50 disabled:hover:bg-purple-600 transition-colors shadow-[0_4px_15px_rgba(255,77,109,0.25)] cursor-pointer"
             >
               Publicar Post
             </button>
