@@ -13,4 +13,4 @@ Registramos oficialmente o tempo decorrido desde o início do desenvolvimento de
 
 > [!TIP]
 > **Novo Recorde Batido! 🚀**
-> Concluímos com sucesso as migrações para o Supabase, o visualizador mobile de PDF nativo, otimizações completas de layout responsivo, rebranding completo para a marca **Dreamscape**, novos fluxos de publicação e geração de builds de APK em tempo recorde de produção.
+> Concluímos com sucesso as migrações para o Supabase, o visualizador mobile de PDF nativo, otimizações completas de layout responsivo, rebranding completo para a marca **Comunidade Shift**, novos fluxos de publicação e geração de builds de APK em tempo recorde de produção.
