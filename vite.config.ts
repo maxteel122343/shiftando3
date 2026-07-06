@@ -7,6 +7,9 @@ export default defineConfig(() => {
   return {
     base: './',   // Required for Capacitor: assets use relative paths in the APK
     plugins: [react(), tailwindcss()],
+    optimizeDeps: {
+      entries: ['index.html'],
+    },
     define: {
       'process.env.SUPABASE_URL': JSON.stringify(process.env.SUPABASE_URL || ''),
       'process.env.SUPABASE_ANON_KEY': JSON.stringify(process.env.SUPABASE_ANON_KEY || ''),

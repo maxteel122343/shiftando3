@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Globe, Sun, Moon } from 'lucide-react';
+import { Search, Globe, Sun, Moon, Lock, Unlock } from 'lucide-react';
 import { PostCard } from './PostCard';
 import { RedditPostCard } from './RedditPostCard';
 import { Post, User } from '../types';
@@ -63,6 +63,16 @@ export function Feed({
   onToggleTheme
 }: FeedProps) {
   const [selectedHashtag, setSelectedHashtag] = useState<string | null>(null);
+  const [isRelatoRequired, setIsRelatoRequired] = useState(() => {
+    return localStorage.getItem('shifting_ebook_relato_required') !== 'false';
+  });
+
+  const handleToggleRelatoRequired = () => {
+    const newVal = !isRelatoRequired;
+    setIsRelatoRequired(newVal);
+    localStorage.setItem('shifting_ebook_relato_required', newVal.toString());
+    window.dispatchEvent(new Event('shifting_relato_requirement_updated'));
+  };
   const [redditPosts, setRedditPosts] = useState<RedditPost[]>([]);
   const [redditLoaded, setRedditLoaded] = useState(false);
   const [multiplier, setMultiplier] = useState(1);
@@ -233,6 +243,17 @@ export function Feed({
               <Moon className="w-4.5 h-4.5 text-amber-500" strokeWidth={2} />
             ) : (
               <Sun className="w-4.5 h-4.5 text-yellow-400 animate-pulse" strokeWidth={2} />
+            )}
+          </button>
+          <button 
+            onClick={handleToggleRelatoRequired}
+            className={`p-2 rounded-full hover:bg-white/10 transition-all cursor-pointer flex items-center justify-center ${isRelatoRequired ? 'bg-purple-600/20 text-purple-400 border border-purple-500/30' : 'bg-white/5 text-slate-400'}`}
+            title={isRelatoRequired ? 'Bloqueio de E-Book Ativo (Exige post de 300+ caractéres)' : 'Bloqueio de E-Book Inativo'}
+          >
+            {isRelatoRequired ? (
+              <Lock className="w-4.5 h-4.5 text-purple-400" strokeWidth={2.2} />
+            ) : (
+              <Unlock className="w-4.5 h-4.5" strokeWidth={1.8} />
             )}
           </button>
         </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { EBook } from '../types';
+import { EBook, User } from '../types';
 import { MOCK_EBOOKS } from '../data/ebooks';
 import { toggleSaveEBook, getSavedEBookIds } from '../utils/ebookStore';
 import { ArrowLeft, BookOpen, ChevronUp, Type, Eye, Menu, Check, X, Sparkles, Download, Lock, Search, Play, Pause, Volume2, Music, FileText, Bookmark, Share2 } from 'lucide-react';
@@ -26,6 +26,84 @@ interface Chapter {
 export function EBookReader({ ebook: propEBook, onClose, onOpenCreator, isPurchased = true, onTriggerPurchase }: EBookReaderProps) {
   const [currentEBook, setCurrentEBook] = useState<EBook>(propEBook);
   const ebook = currentEBook;
+
+  const [currentUser, setCurrentUser] = useState<User>(() => {
+    const stored = localStorage.getItem('shifting_current_user');
+    if (stored) {
+      try {
+        return JSON.parse(stored);
+      } catch (e) {}
+    }
+    return {
+      id: 'user_me',
+      username: 'new_shifter',
+      displayName: 'Shifter01',
+      avatar: '',
+      bio: '',
+      followers: [],
+      following: []
+    };
+  });
+
+  const [isRelatoRequired, setIsRelatoRequired] = useState(() => {
+    return localStorage.getItem('shifting_ebook_relato_required') !== 'false';
+  });
+
+  const [unlockedEbooks, setUnlockedEbooks] = useState<string[]>(() => {
+    try {
+      return JSON.parse(localStorage.getItem('shifting_unlocked_ebooks') || '[]');
+    } catch (e) {
+      return [];
+    }
+  });
+
+  const [lockTitle, setLockTitle] = useState('');
+  const [lockContent, setLockContent] = useState('');
+  const [isSubmittingLock, setIsSubmittingLock] = useState(false);
+
+  useEffect(() => {
+    const handleToggleReq = () => {
+      setIsRelatoRequired(localStorage.getItem('shifting_ebook_relato_required') !== 'false');
+    };
+    window.addEventListener('shifting_relato_requirement_updated', handleToggleReq);
+    return () => {
+      window.removeEventListener('shifting_relato_requirement_updated', handleToggleReq);
+    };
+  }, []);
+
+  const handleUnlockSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (lockContent.length < 300 || !lockTitle.trim() || isSubmittingLock) return;
+
+    setIsSubmittingLock(true);
+    try {
+      const newPost = {
+        id: `post_${Date.now()}`,
+        userId: currentUser.id,
+        title: lockTitle.trim(),
+        content: lockContent.trim(),
+        hashtags: ['#shifting', '#ebook'],
+        likes: [],
+        comments: [],
+        createdAt: Date.now()
+      };
+
+      window.dispatchEvent(new CustomEvent('shifting_request_post_creation', {
+        detail: { post: newPost }
+      }));
+
+      const updated = [...unlockedEbooks, ebook.id];
+      setUnlockedEbooks(updated);
+      localStorage.setItem('shifting_unlocked_ebooks', JSON.stringify(updated));
+
+      setLockTitle('');
+      setLockContent('');
+    } catch (err) {
+      console.error("Error unlocking ebook", err);
+    } finally {
+      setIsSubmittingLock(false);
+    }
+  };
 
   const [allEbooks, setAllEbooks] = useState<EBook[]>([]);
   const [isSaved, setIsSaved] = useState(() => getSavedEBookIds().includes(ebook.id));
@@ -647,6 +725,144 @@ export function EBookReader({ ebook: propEBook, onClose, onOpenCreator, isPurcha
   };
 
   const currentStyle = themeStyles[theme];
+
+  const isLocked = isRelatoRequired && !unlockedEbooks.includes(ebook.id);
+
+  if (isLocked) {
+    return (
+      <>
+        {createPortal(
+          <AnimatePresence>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[100] flex flex-col bg-[#0c0a13] text-slate-200 overflow-y-auto"
+            >
+              {/* Floating glow effects */}
+              <div className="absolute top-10 left-10 w-72 h-72 bg-purple-600/10 blur-[120px] rounded-full pointer-events-none" />
+              <div className="absolute bottom-10 right-10 w-96 h-96 bg-indigo-600/10 blur-[150px] rounded-full pointer-events-none" />
+
+              {/* Close / Back button */}
+              <button
+                onClick={onClose}
+                className="absolute top-4 right-4 p-2 rounded-full bg-white/5 border border-white/10 text-slate-400 hover:text-white transition-all hover:bg-white/10 z-50 cursor-pointer"
+                title="Fechar"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="flex-1 flex items-center justify-center p-4 md:p-8">
+                <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-12 gap-8 bg-white/[0.02] border border-white/5 rounded-[32px] p-6 md:p-8 backdrop-blur-xl relative z-10 shadow-2xl">
+                  {/* Left Column: EBook Details */}
+                  <div className="md:col-span-5 flex flex-col items-center text-center justify-center md:border-r md:border-white/5 md:pr-8 py-4">
+                    <div className="relative w-40 sm:w-48 aspect-[2/3] rounded-2xl overflow-hidden mb-5 border border-purple-500/20 bg-[#120f1d] shadow-lg shadow-purple-500/10">
+                      <img
+                        src={ebook.coverImage}
+                        alt={ebook.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end justify-center p-3">
+                        <span className="text-[10px] text-purple-300 font-mono font-bold tracking-widest uppercase flex items-center gap-1">
+                          <Lock className="w-3 h-3 text-purple-400" />
+                          <span>Bloqueado</span>
+                        </span>
+                      </div>
+                    </div>
+                    <h2 className="text-lg md:text-xl font-black text-white tracking-tight leading-snug">
+                      {ebook.title}
+                    </h2>
+                    <p className="text-xs text-slate-400 mt-2 font-mono">
+                      por {ebook.authorName || 'Biblioteca'}
+                    </p>
+                    
+                    <div className="mt-6 p-4 rounded-2xl bg-purple-500/5 border border-purple-500/10 text-left text-xs leading-relaxed text-purple-300 max-w-xs">
+                      <p className="font-bold flex items-center gap-1 mb-1.5 font-mono">
+                        <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+                        <span>Chave do Conhecimento:</span>
+                      </p>
+                      Para desbloquear e-books premium e ler livremente, contribua com um relato de Shifting, Realidade Desejada ou relato astral de pelo menos 300 caracteres. A sua jornada inspira outros shifters!
+                    </div>
+                  </div>
+
+                  {/* Right Column: Post Relato Form */}
+                  <div className="md:col-span-7 flex flex-col justify-center">
+                    <div className="mb-6">
+                      <h3 className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
+                        <FileText className="w-5 h-5 text-purple-400" />
+                        <span>Publicar Relato</span>
+                      </h3>
+                      <p className="text-xs text-slate-400 mt-1">
+                        Seu relato será publicado publicamente no feed da comunidade.
+                      </p>
+                    </div>
+
+                    <form onSubmit={handleUnlockSubmit} className="space-y-4">
+                      <div>
+                        <label className="block text-[10px] uppercase font-mono tracking-widest text-slate-500 mb-1.5 font-bold">
+                          Título do Relato
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="Ex: Minha primeira ida a Hogwarts..."
+                          value={lockTitle}
+                          onChange={(e) => setLockTitle(e.target.value)}
+                          className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500 focus:bg-white/[0.08] transition-all"
+                          required
+                        />
+                      </div>
+
+                      <div>
+                        <div className="flex justify-between items-center mb-1.5">
+                          <label className="block text-[10px] uppercase font-mono tracking-widest text-slate-500 font-bold">
+                            Conteúdo do Relato
+                          </label>
+                          <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full ${lockContent.length >= 300 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
+                            {lockContent.length} / 300 caracteres
+                          </span>
+                        </div>
+                        <textarea
+                          placeholder="Relate detalhadamente como foi o seu shift ou relato extraordinário. Mínimo de 300 caracteres..."
+                          value={lockContent}
+                          onChange={(e) => setLockContent(e.target.value)}
+                          rows={6}
+                          className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500 focus:bg-white/[0.08] transition-all resize-none leading-relaxed"
+                          required
+                        />
+                      </div>
+
+                      <button
+                        type="submit"
+                        disabled={lockContent.length < 300 || !lockTitle.trim() || isSubmittingLock}
+                        className={`w-full py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all transform flex items-center justify-center gap-2 cursor-pointer ${
+                          lockContent.length >= 300 && lockTitle.trim() && !isSubmittingLock
+                            ? 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-lg shadow-purple-500/25 active:scale-98'
+                            : 'bg-white/5 border border-white/10 text-slate-500 cursor-not-allowed'
+                        }`}
+                      >
+                        {isSubmittingLock ? (
+                          <>
+                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                            <span>Publicando relato...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Sparkles className="w-4 h-4" />
+                            <span>Publicar e Desbloquear E-book</span>
+                          </>
+                        )}
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>,
+          document.body
+        )}
+      </>
+    );
+  }
 
   return (
     <>

@@ -337,9 +337,20 @@ export default function App() {
       setShowGuestWarning(true);
     };
 
+    const handleRequestPostCreation = async (e: Event) => {
+      const customEvent = e as CustomEvent;
+      const { post } = customEvent.detail || {};
+      if (post) {
+        await handleCreatePost(post);
+        showToast("Relato publicado com sucesso! E-book desbloqueado. 📖✨", "success");
+      }
+    };
+
     window.addEventListener('shifting_guest_warning', handleGuestWarning);
+    window.addEventListener('shifting_request_post_creation', handleRequestPostCreation);
     return () => {
       window.removeEventListener('shifting_guest_warning', handleGuestWarning);
+      window.removeEventListener('shifting_request_post_creation', handleRequestPostCreation);
     };
   }, []);
 

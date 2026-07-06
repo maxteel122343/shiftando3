@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Post, User } from '../types';
+import { Post, User, EBook } from '../types';
 import { PostCard } from './PostCard';
-import { ArrowLeft, UserPlus, Check, Edit, Camera, Save, X } from 'lucide-react';
+import { ArrowLeft, UserPlus, Check, Edit, Camera, Save, X, BookOpen, Lock, Heart, Bookmark } from 'lucide-react';
 
-import { isConfigured as isSupabaseConfigured, supabase } from '../utils/supabase';
+import { isConfigured as isSupabaseConfigured, supabase, getEBooksSupabase, toUUID } from '../utils/supabase';
+import { getAllEBooks, getLikedEBookIds, toggleLikeEBook, getSavedEBookIds, toggleSaveEBook } from '../utils/ebookStore';
+import { EBookReader } from './EBookReader';
+import { EBookPurchaseModal } from './EBookPurchaseModal';
 
 interface ProfileProps {
   currentUser: User;
@@ -45,6 +48,13 @@ export function Profile({
   const [bio, setBio] = useState(profileUser?.bio || '');
   const [avatar, setAvatar] = useState(profileUser?.avatar || 'https://api.dicebear.com/9.x/notionists/svg?seed=default');
 
+  const [allEbooks, setAllEbooks] = useState<EBook[]>([]);
+  const [likedIds, setLikedIds] = useState<string[]>(getLikedEBookIds());
+  const [savedIds, setSavedIds] = useState<string[]>(getSavedEBookIds());
+  const [purchasedIds, setPurchasedIds] = useState<string[]>([]);
+  const [readingEbook, setReadingEbook] = useState<EBook | null>(null);
+  const [purchasingEbook, setPurchasingEbook] = useState<EBook | null>(null);
+
   // Synchronize local states when profileUser changes (or when navigating to different profile)
   useEffect(() => {
     if (profileUser) {
@@ -55,6 +65,58 @@ export function Profile({
       setIsEditing(false);
     }
   }, [profileUser]);
+
+  useEffect(() => {
+    if (!profileUser) return;
+    async function loadEbooks() {
+      let list = getAllEBooks();
+      if (isSupabaseConfigured) {
+        try {
+          const dbEbooks = await getEBooksSupabase();
+          dbEbooks.forEach(dbBook => {
+            if (!list.some(b => b.id === dbBook.id)) {
+              list.push(dbBook);
+            }
+          });
+        } catch (e) {
+          console.warn('Erro ao carregar ebooks do Supabase no Perfil:', e);
+        }
+      }
+      setAllEbooks(list);
+    }
+
+    loadEbooks();
+
+    const handleUpdate = () => loadEbooks();
+    window.addEventListener('shifting_ebooks_updated', handleUpdate);
+    return () => window.removeEventListener('shifting_ebooks_updated', handleUpdate);
+  }, [profileUser?.id]);
+
+  useEffect(() => {
+    const updateLikes = () => setLikedIds(getLikedEBookIds());
+    const updateSaves = () => setSavedIds(getSavedEBookIds());
+    window.addEventListener('shifting_ebook_likes_updated', updateLikes);
+    window.addEventListener('shifting_ebook_saves_updated', updateSaves);
+    return () => {
+      window.removeEventListener('shifting_ebook_likes_updated', updateLikes);
+      window.removeEventListener('shifting_ebook_saves_updated', updateSaves);
+    };
+  }, []);
+
+  useEffect(() => {
+    const storedPurchased = localStorage.getItem('shifting_purchased_ebooks');
+    if (storedPurchased) {
+      try {
+        setPurchasedIds(JSON.parse(storedPurchased));
+      } catch (e) {}
+    }
+  }, []);
+
+  const handlePurchaseSuccess = (ebookId: string) => {
+    const updated = [...purchasedIds, ebookId];
+    setPurchasedIds(updated);
+    localStorage.setItem('shifting_purchased_ebooks', JSON.stringify(updated));
+  };
 
   if (!profileUser) {
     return (
@@ -128,6 +190,24 @@ export function Profile({
     }
     setIsEditing(false);
   };
+
+  const userEbooks = allEbooks.filter(ebook => {
+    if (!profileUser) return false;
+    if (ebook.authorId) {
+      const ebookAuthorUuid = toUUID(ebook.authorId);
+      const profileUserUuid = toUUID(profileUser.id);
+      if (ebookAuthorUuid === profileUserUuid || ebook.authorId === profileUser.id) {
+        return true;
+      }
+    }
+    if (ebook.authorName && (
+      ebook.authorName.toLowerCase() === profileUser.username.toLowerCase() ||
+      ebook.authorName.toLowerCase() === profileUser.displayName.toLowerCase()
+    )) {
+      return true;
+    }
+    return false;
+  });
 
   return (
     <div className="w-full py-8 px-4 relative z-10">
@@ -298,6 +378,104 @@ export function Profile({
         </div>
       </div>
 
+      {userEbooks.length > 0 && (
+        <div className="bg-[#15121e] rounded-[32px] border border-white/5 shadow-2xl p-6 sm:p-8 mb-8">
+          <div className="flex items-center gap-2 mb-6">
+            <BookOpen className="w-5 h-5 text-purple-400" />
+            <h2 className="text-lg font-bold text-white tracking-tight">Vitrine de E-Books</h2>
+          </div>
+          
+          <div className="flex gap-4 overflow-x-auto pb-4 custom-scrollbar select-none">
+            {userEbooks.map(ebook => {
+              const isAuthor = ebook.authorId === currentUser.id;
+              const isPurchased = !ebook.isPaid || isAuthor || purchasedIds.includes(ebook.id);
+              const requiresPrePurchase = ebook.isPaid && !isPurchased && ebook.lockType === 'full';
+              const isLiked = likedIds.includes(ebook.id);
+              const isSaved = savedIds.includes(ebook.id);
+
+              return (
+                <div 
+                  key={ebook.id} 
+                  className="flex-none w-36 sm:w-40 flex flex-col group relative rounded-2xl transition-all duration-300"
+                >
+                  <div className="relative w-full aspect-[2/3] rounded-2xl overflow-hidden mb-3 border border-white/5 bg-[#120f1d] shadow-lg">
+                    <img 
+                      src={ebook.coverImage} 
+                      alt={ebook.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100 mix-blend-luminosity pointer-events-none"
+                    />
+
+                    <div className="absolute top-2 left-2 flex gap-1.5 z-20">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleLikeEBook(ebook.id);
+                        }}
+                        className={`p-1.5 rounded-lg border backdrop-blur-md transition-all active:scale-90 cursor-pointer ${
+                          isLiked 
+                            ? 'bg-rose-500/20 border-rose-500 text-rose-400' 
+                            : 'bg-black/60 border-white/10 text-slate-300 hover:text-rose-400 hover:border-rose-500/40'
+                        }`}
+                        title={isLiked ? "Curtido" : "Curtir"}
+                      >
+                        <Heart className={`w-3.5 h-3.5 ${isLiked ? 'fill-rose-500' : ''}`} />
+                      </button>
+
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleSaveEBook(ebook.id);
+                        }}
+                        className={`p-1.5 rounded-lg border backdrop-blur-md transition-all active:scale-90 cursor-pointer ${
+                          isSaved 
+                            ? 'bg-purple-500/20 border-purple-500 text-purple-300' 
+                            : 'bg-black/60 border-white/10 text-slate-300 hover:text-purple-300 hover:border-purple-500/40'
+                        }`}
+                        title={isSaved ? "Salvo" : "Salvar"}
+                      >
+                        <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-purple-500' : ''}`} />
+                      </button>
+                    </div>
+
+                    {ebook.isPaid && !isPurchased && (
+                      <div className="absolute top-2 right-2 p-1.5 bg-black/80 backdrop-blur-sm rounded-lg border border-purple-500/30 text-purple-300 z-10" title="E-book Premium">
+                        <Lock className="w-3.5 h-3.5" />
+                      </div>
+                    )}
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-3">
+                      <span className="text-purple-300 text-[10px] font-mono uppercase tracking-widest font-bold mb-1 truncate">
+                        {ebook.authorName || 'BIBLIOTECA'}
+                      </span>
+                      <span className="text-white text-xs font-bold text-center tracking-wide leading-tight line-clamp-2">
+                        {ebook.title}
+                      </span>
+                    </div>
+                  </div>
+
+                  {requiresPrePurchase ? (
+                    <button 
+                      onClick={() => setPurchasingEbook(ebook)}
+                      className="w-full py-1.5 rounded-xl bg-purple-600 border border-purple-500 text-white hover:bg-purple-700 text-[10px] font-bold transition-all cursor-pointer flex items-center justify-center gap-1 shadow-lg"
+                    >
+                      <Lock className="w-3.5 h-3.5 shrink-0" />
+                      <span>Comprar R$ {(ebook.price || 9.9).toFixed(2).replace('.', ',')}</span>
+                    </button>
+                  ) : (
+                    <button 
+                      onClick={() => setReadingEbook(ebook)}
+                      className="w-full py-1.5 rounded-xl bg-purple-600/10 border border-purple-500/20 text-purple-300 hover:bg-purple-600 hover:text-white text-xs font-bold transition-all cursor-pointer"
+                    >
+                      {ebook.isPaid && !isPurchased ? 'Degustar' : 'Ler E-Book'}
+                    </button>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       <div className="space-y-6">
         <h2 className="text-xl font-semibold text-white px-2 mb-4">Posts</h2>
         {userPosts.length === 0 ? (
@@ -324,6 +502,27 @@ export function Profile({
           })
         )}
       </div>
+      
+      {readingEbook && (
+        <EBookReader 
+          ebook={readingEbook} 
+          onClose={() => setReadingEbook(null)} 
+          isPurchased={!readingEbook.isPaid || readingEbook.authorId === currentUser.id || purchasedIds.includes(readingEbook.id)}
+          onTriggerPurchase={(ebook) => {
+            setReadingEbook(null);
+            setPurchasingEbook(ebook);
+          }}
+        />
+      )}
+
+      {purchasingEbook && (
+        <EBookPurchaseModal
+          ebook={purchasingEbook}
+          isOpen={!!purchasingEbook}
+          onClose={() => setPurchasingEbook(null)}
+          onSuccess={() => handlePurchaseSuccess(purchasingEbook.id)}
+        />
+      )}
     </div>
   );
 }
