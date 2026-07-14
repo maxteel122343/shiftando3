@@ -142,6 +142,138 @@ const DEFAULT_VIDEOS: VideoPost[] = [
     comments: 198,
     shares: 72,
     music: 'Raven Guided Track - Alpha Waves'
+  },
+  {
+    id: 'vid_themagizoologistwitch',
+    username: 'themagizoologistwitch',
+    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150',
+    description: 'Shifting e magia natural! Dicas práticas para alinhar sua vibração para a DR 🔮✨',
+    tags: ['shifting', 'shifttok', 'magianatural', 'dr', 'leidaatracao'],
+    videoUrl: 'https://www.tiktok.com/@themagizoologistwitch/video/7271756158870752554',
+    likes: 1520,
+    comments: 73,
+    shares: 38,
+    music: 'som original - the magizoologist'
+  },
+  {
+    id: 'vid_escola_asemente369',
+    username: 'escola.asemente369',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+    description: 'Como sintonizar a frequência 369 para manifestar e shifting de realidade 🧬🌌',
+    tags: ['shifting', '369method', 'frequencias', 'despertar'],
+    videoUrl: 'https://www.tiktok.com/@escola.asemente369/video/7358114504871398689',
+    likes: 2190,
+    comments: 142,
+    shares: 67,
+    music: 'som original - A Semente 369'
+  },
+  {
+    id: 'vid_ravenashf444_2',
+    username: 'ravenashf444',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+    description: 'Relato completo da minha experiência em Hogwarts usando o método Raven 🏰✨',
+    tags: ['relatoshifting', 'hogwarts', 'metodoraven', 'shifttok'],
+    videoUrl: 'https://www.tiktok.com/@ravenashf444/video/7634313062383668500',
+    likes: 4120,
+    comments: 312,
+    shares: 145,
+    music: 'som original - Ravena'
+  },
+  {
+    id: 'vid_lindih_d_trancaruas_2',
+    username: 'lindih_d_trancaruas',
+    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150',
+    description: 'Limpeza energética e proteção espiritual antes do shifting 🕯️🌌',
+    tags: ['shifting', 'limpezaenergetica', 'espiritualidade'],
+    videoUrl: 'https://www.tiktok.com/@lindih_d_trancaruas/video/7661371680857820437',
+    likes: 1840,
+    comments: 94,
+    shares: 51,
+    music: 'som original - Lindih'
+  },
+  {
+    id: 'vid_criador_quantico',
+    username: 'criador.quantico',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+    description: 'A mecânica quântica por trás da transição de consciência 🧠⚡',
+    tags: ['fisicaquantica', 'shifting', 'mecanicaquantica', 'dr'],
+    videoUrl: 'https://www.tiktok.com/@criador.quantico/video/7660794372354542856',
+    likes: 2950,
+    comments: 178,
+    shares: 82,
+    music: 'som original - Criador Quântico'
+  },
+  {
+    id: 'vid_gabrielpadrao',
+    username: 'gabrielpadrao',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+    description: 'Como reprogramar seu subconsciente de forma simples para fazer o shifting 🚪💤',
+    tags: ['reprogramacao', 'subconsciente', 'shifttok', 'dr'],
+    videoUrl: 'https://www.tiktok.com/@gabrielpadrao/video/7458131306942090502',
+    likes: 3880,
+    comments: 245,
+    shares: 99,
+    music: 'som original - Gabriel Padrão'
+  },
+  {
+    id: 'vid_shifter078',
+    username: 'shifter078',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+    description: 'Sua realidade desejada está mais perto do que você imagina. Relato motivacional! 💫✨',
+    tags: ['realidadedesejada', 'motivação', 'dr', 'shiftingbrasil'],
+    videoUrl: 'https://www.tiktok.com/@shifter078/video/7662073395261033736',
+    likes: 1930,
+    comments: 87,
+    shares: 40,
+    music: 'som original - Shifter078'
+  },
+  {
+    id: 'vid_lindih_d_trancaruas_3',
+    username: 'lindih_d_trancaruas',
+    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150',
+    description: 'Como manter a calma quando você sente que está quase mudando de realidade! 🌌🧘',
+    tags: ['shifting', 'sintomasdeshifting', 'calma', 'meditação'],
+    videoUrl: 'https://www.tiktok.com/@lindih_d_trancaruas/video/7661744311293316372',
+    likes: 2470,
+    comments: 112,
+    shares: 59,
+    music: 'som original - Lindih'
+  },
+  {
+    id: 'vid_lucaspadz',
+    username: 'lucaspadz',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+    description: 'Sonhos lúcidos vs Reality Shifting: diferenças e como induzir ambos 💤💫',
+    tags: ['sonholucido', 'shifting', 'projecaoastral'],
+    videoUrl: 'https://www.tiktok.com/@lucaspadz/video/7480610390909586743',
+    likes: 3510,
+    comments: 204,
+    shares: 88,
+    music: 'som original - Lucas Padz'
+  },
+  {
+    id: 'vid_portalsintese',
+    username: 'portalsintese',
+    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150',
+    description: 'O poder da meditação guiada na preparação para o shifting 🌌🧘',
+    tags: ['meditação', 'shifting', 'conexão', 'thetawaves'],
+    videoUrl: 'https://www.tiktok.com/@portalsintese/video/7621287390023306514',
+    likes: 1820,
+    comments: 69,
+    shares: 31,
+    music: 'som original - Portal Síntese'
+  },
+  {
+    id: 'vid_freyamardoll',
+    username: 'freya.mardoll.loj',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+    description: 'Conexão espiritual e arquétipos para impulsionar a sua DR 🌌🔮',
+    tags: ['arquetipos', 'shifting', 'espiritualidade', 'dr'],
+    videoUrl: 'https://www.tiktok.com/@freya.mardoll.loj/video/7327243708473036038',
+    likes: 2900,
+    comments: 153,
+    shares: 74,
+    music: 'som original - Freya Mardoll'
   }
 ];
 
