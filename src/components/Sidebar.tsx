@@ -169,7 +169,7 @@ export function Sidebar({ currentUser, onOpenAuth, appTheme, onToggleTheme, post
           )}
           title="Feed"
         >
-          <Home className="w-6.5 h-6.5" strokeWidth={1.5} />
+          <Home className="w-6 h-6" strokeWidth={1.5} />
         </NavLink>
 
         {/* Vídeos Link */}
@@ -183,7 +183,7 @@ export function Sidebar({ currentUser, onOpenAuth, appTheme, onToggleTheme, post
           )}
           title="Vídeos"
         >
-          <Play className="w-6.5 h-6.5" strokeWidth={1.5} />
+          <Play className="w-6 h-6" strokeWidth={1.5} />
         </NavLink>
 
         {/* Trends Button */}
@@ -197,7 +197,7 @@ export function Sidebar({ currentUser, onOpenAuth, appTheme, onToggleTheme, post
           )}
           title="Assuntos em Alta"
         >
-          <TrendingUp className="w-6.5 h-6.5" strokeWidth={1.5} />
+          <TrendingUp className="w-6 h-6" strokeWidth={1.5} />
         </button>
 
         {/* AI Guide Link */}
@@ -211,7 +211,7 @@ export function Sidebar({ currentUser, onOpenAuth, appTheme, onToggleTheme, post
           )}
           title="AI Guide"
         >
-          <Bot className="w-6.5 h-6.5" strokeWidth={1.5} />
+          <Bot className="w-6 h-6" strokeWidth={1.5} />
         </NavLink>
 
         {/* Saved Link */}
@@ -225,7 +225,7 @@ export function Sidebar({ currentUser, onOpenAuth, appTheme, onToggleTheme, post
           )}
           title="Saved"
         >
-          <Bookmark className="w-6.5 h-6.5" strokeWidth={1.5} />
+          <Bookmark className="w-6 h-6" strokeWidth={1.5} />
         </NavLink>
         
         {/* Auth Button */}
@@ -234,7 +234,7 @@ export function Sidebar({ currentUser, onOpenAuth, appTheme, onToggleTheme, post
           className="p-2 rounded-xl text-slate-500 hover:text-purple-400 transition-colors cursor-pointer flex flex-col items-center justify-center"
           title="Login"
         >
-          <LogIn className="w-6.5 h-6.5" strokeWidth={1.5} />
+          <LogIn className="w-6 h-6" strokeWidth={1.5} />
         </button>
 
         {/* Profile Link */}
