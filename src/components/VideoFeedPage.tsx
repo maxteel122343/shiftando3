@@ -142,138 +142,6 @@ const DEFAULT_VIDEOS: VideoPost[] = [
     comments: 198,
     shares: 72,
     music: 'Raven Guided Track - Alpha Waves'
-  },
-  {
-    id: 'vid_themagizoologistwitch',
-    username: 'themagizoologistwitch',
-    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150',
-    description: 'Shifting e magia natural! Dicas práticas para alinhar sua vibração para a DR 🔮✨',
-    tags: ['shifting', 'shifttok', 'magianatural', 'dr', 'leidaatracao'],
-    videoUrl: 'https://www.tiktok.com/@themagizoologistwitch/video/7271756158870752554',
-    likes: 1520,
-    comments: 73,
-    shares: 38,
-    music: 'som original - the magizoologist'
-  },
-  {
-    id: 'vid_escola_asemente369',
-    username: 'escola.asemente369',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
-    description: 'Como sintonizar a frequência 369 para manifestar e shifting de realidade 🧬🌌',
-    tags: ['shifting', '369method', 'frequencias', 'despertar'],
-    videoUrl: 'https://www.tiktok.com/@escola.asemente369/video/7358114504871398689',
-    likes: 2190,
-    comments: 142,
-    shares: 67,
-    music: 'som original - A Semente 369'
-  },
-  {
-    id: 'vid_ravenashf444_2',
-    username: 'ravenashf444',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-    description: 'Relato completo da minha experiência em Hogwarts usando o método Raven 🏰✨',
-    tags: ['relatoshifting', 'hogwarts', 'metodoraven', 'shifttok'],
-    videoUrl: 'https://www.tiktok.com/@ravenashf444/video/7634313062383668500',
-    likes: 4120,
-    comments: 312,
-    shares: 145,
-    music: 'som original - Ravena'
-  },
-  {
-    id: 'vid_lindih_d_trancaruas_2',
-    username: 'lindih_d_trancaruas',
-    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150',
-    description: 'Limpeza energética e proteção espiritual antes do shifting 🕯️🌌',
-    tags: ['shifting', 'limpezaenergetica', 'espiritualidade'],
-    videoUrl: 'https://www.tiktok.com/@lindih_d_trancaruas/video/7661371680857820437',
-    likes: 1840,
-    comments: 94,
-    shares: 51,
-    music: 'som original - Lindih'
-  },
-  {
-    id: 'vid_criador_quantico',
-    username: 'criador.quantico',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
-    description: 'A mecânica quântica por trás da transição de consciência 🧠⚡',
-    tags: ['fisicaquantica', 'shifting', 'mecanicaquantica', 'dr'],
-    videoUrl: 'https://www.tiktok.com/@criador.quantico/video/7660794372354542856',
-    likes: 2950,
-    comments: 178,
-    shares: 82,
-    music: 'som original - Criador Quântico'
-  },
-  {
-    id: 'vid_gabrielpadrao',
-    username: 'gabrielpadrao',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
-    description: 'Como reprogramar seu subconsciente de forma simples para fazer o shifting 🚪💤',
-    tags: ['reprogramacao', 'subconsciente', 'shifttok', 'dr'],
-    videoUrl: 'https://www.tiktok.com/@gabrielpadrao/video/7458131306942090502',
-    likes: 3880,
-    comments: 245,
-    shares: 99,
-    music: 'som original - Gabriel Padrão'
-  },
-  {
-    id: 'vid_shifter078',
-    username: 'shifter078',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-    description: 'Sua realidade desejada está mais perto do que você imagina. Relato motivacional! 💫✨',
-    tags: ['realidadedesejada', 'motivação', 'dr', 'shiftingbrasil'],
-    videoUrl: 'https://www.tiktok.com/@shifter078/video/7662073395261033736',
-    likes: 1930,
-    comments: 87,
-    shares: 40,
-    music: 'som original - Shifter078'
-  },
-  {
-    id: 'vid_lindih_d_trancaruas_3',
-    username: 'lindih_d_trancaruas',
-    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150',
-    description: 'Como manter a calma quando você sente que está quase mudando de realidade! 🌌🧘',
-    tags: ['shifting', 'sintomasdeshifting', 'calma', 'meditação'],
-    videoUrl: 'https://www.tiktok.com/@lindih_d_trancaruas/video/7661744311293316372',
-    likes: 2470,
-    comments: 112,
-    shares: 59,
-    music: 'som original - Lindih'
-  },
-  {
-    id: 'vid_lucaspadz',
-    username: 'lucaspadz',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
-    description: 'Sonhos lúcidos vs Reality Shifting: diferenças e como induzir ambos 💤💫',
-    tags: ['sonholucido', 'shifting', 'projecaoastral'],
-    videoUrl: 'https://www.tiktok.com/@lucaspadz/video/7480610390909586743',
-    likes: 3510,
-    comments: 204,
-    shares: 88,
-    music: 'som original - Lucas Padz'
-  },
-  {
-    id: 'vid_portalsintese',
-    username: 'portalsintese',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150',
-    description: 'O poder da meditação guiada na preparação para o shifting 🌌🧘',
-    tags: ['meditação', 'shifting', 'conexão', 'thetawaves'],
-    videoUrl: 'https://www.tiktok.com/@portalsintese/video/7621287390023306514',
-    likes: 1820,
-    comments: 69,
-    shares: 31,
-    music: 'som original - Portal Síntese'
-  },
-  {
-    id: 'vid_freyamardoll',
-    username: 'freya.mardoll.loj',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-    description: 'Conexão espiritual e arquétipos para impulsionar a sua DR 🌌🔮',
-    tags: ['arquetipos', 'shifting', 'espiritualidade', 'dr'],
-    videoUrl: 'https://www.tiktok.com/@freya.mardoll.loj/video/7327243708473036038',
-    likes: 2900,
-    comments: 153,
-    shares: 74,
-    music: 'som original - Freya Mardoll'
   }
 ];
 
@@ -361,49 +229,6 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
 
   const videoRefs = useRef<Record<string, HTMLVideoElement | null>>({});
   const containerRef = useRef<HTMLDivElement | null>(null);
-  
-  // Initialize videos from localStorage or fallback to DEFAULT_VIDEOS
-  useEffect(() => {
-    const storedVideos = localStorage.getItem('shifting_videos_v4');
-    let initialVideos: VideoPost[] = [];
-    if (storedVideos) {
-      try {
-        initialVideos = JSON.parse(storedVideos);
-      } catch (e) {
-        console.error("Error parsing stored video posts", e);
-      }
-    }
-    
-    // Check if we need to sync/add new default videos or update old TikTok URLs to direct mp4 URLs
-    const defaultIds = DEFAULT_VIDEOS.map(v => v.id);
-    const storedIds = initialVideos.map(v => v.id);
-    const missingDefaults = DEFAULT_VIDEOS.filter(v => !storedIds.includes(v.id));
-    
-    // Check if any default video in stored list is still using a tiktok.com URL (meaning it needs migration)
-    const hasOldTikTokUrls = initialVideos.some(v => v.id.startsWith('vid_') && v.videoUrl.includes('tiktok.com'));
-    
-    if (missingDefaults.length > 0 || hasOldTikTokUrls) {
-      const onlyContainsOldDefaults = initialVideos.every(v => v.id.startsWith('vid_'));
-      if (onlyContainsOldDefaults || hasOldTikTokUrls) {
-        initialVideos = DEFAULT_VIDEOS;
-      } else {
-        initialVideos = initialVideos.map(storedVideo => {
-          const match = DEFAULT_VIDEOS.find(d => d.id === storedVideo.id);
-          if (match) {
-            return { ...storedVideo, videoUrl: match.videoUrl };
-          }
-          return storedVideo;
-        });
-        initialVideos = [...initialVideos, ...missingDefaults];
-      }
-      localStorage.setItem('shifting_videos_v4', JSON.stringify(initialVideos));
-    } else if (initialVideos.length === 0) {
-      initialVideos = DEFAULT_VIDEOS;
-      localStorage.setItem('shifting_videos_v4', JSON.stringify(DEFAULT_VIDEOS));
-    }
-    
-    setVideos(initialVideos);
-  }, []);
 
   const [isResolving, setIsResolving] = useState(false);
 
@@ -634,7 +459,7 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
 
       {/* Main vertical scrolling cards feed */}
       <div className="w-full max-w-[680px] flex flex-col gap-6 px-1 sm:px-2 pb-32">
-        {videos.map((video, videoIndex) => {
+        {videos.map((video) => {
           const isLiked = !!likedVideos[video.id];
           const isPlaying = !!playingState[video.id];
           const isTikTok = video.isTikTok || video.videoUrl.includes('tiktok.com') || video.videoUrl.includes('tikwm.com') || video.id.includes('pedradalu') || video.id.includes('shiftxwlivie') || video.id.includes('nanna') || video.id.includes('enjoy') || video.id.includes('treze') || video.id.includes('veradoastral') || video.id.includes('cria') || video.id.includes('lindih') || video.id.includes('ravena');
@@ -642,9 +467,6 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
           const isEmbed = embedInfo.type !== 'native';
           const isOwnVideo = video.username === (currentUser.username || 'visitante') || video.id === 'vid_test_tiktok';
           const isImage = !!(video.videoUrl.match(/\.(jpeg|jpg|gif|png|webp)/i) || video.videoUrl.includes('unsplash') || video.videoUrl.includes('format=webp') || video.videoUrl.includes('format=jpeg') || video.videoUrl.includes('format=png'));
-
-          const activeIndex = videos.findIndex(v => v.id === activeVideoId);
-          const isNearActive = Math.abs(videoIndex - activeIndex) <= 1;
 
           return (
             <div 
@@ -691,7 +513,7 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
                   />
                 ) : isEmbed ? (
                   <iframe
-                    src={isNearActive ? embedInfo.url : ""}
+                    src={embedInfo.url}
                     className="w-full h-full border-0 overflow-hidden scale-[1.4] md:scale-100 transition-transform origin-center"
                     scrolling="no"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -700,8 +522,7 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
                 ) : (
                   <video
                     ref={(el) => { videoRefs.current[video.id] = el; }}
-                    src={isNearActive ? video.videoUrl : ""}
-                    preload={isNearActive ? "auto" : "none"}
+                    src={video.videoUrl}
                     loop
                     muted={muted || activeVideoId !== video.id}
                     playsInline
