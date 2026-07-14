@@ -375,6 +375,9 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
   const handleTogglePlay = (id: string) => {
     const isPlaying = !playingState[id];
     setPlayingState(prev => ({ ...prev, [id]: isPlaying }));
+    if (isPlaying) {
+      setMuted(false);
+    }
     const videoEl = videoRefs.current[id];
     if (videoEl) {
       if (isPlaying) {
@@ -606,6 +609,20 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
                     onClick={() => handleTogglePlay(video.id)}
                     className="w-full h-full object-cover cursor-pointer scale-[1.4] md:scale-100 transition-transform origin-center"
                   />
+                )}
+
+                {/* Floating Volume/Mute Button inside Video Player */}
+                {!isEmbed && !isImage && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMuted(!muted);
+                    }}
+                    className="absolute bottom-4 right-4 z-30 p-2.5 rounded-full bg-black/60 hover:bg-purple-600 border border-white/10 text-white hover:text-white transition-all cursor-pointer shadow-md"
+                    title={muted ? "Ativar Áudio" : "Mutar Vídeo"}
+                  >
+                    {muted ? <VolumeX className="w-4 h-4 text-red-400" /> : <Volume2 className="w-4 h-4 text-purple-400" />}
+                  </button>
                 )}
 
                 {/* Floating controls for TikTok videos */}
