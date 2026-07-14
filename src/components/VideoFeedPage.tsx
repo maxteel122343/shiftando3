@@ -29,7 +29,7 @@ const DEFAULT_VIDEOS: VideoPost[] = [
     avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150',
     description: 'O que é shifting e como praticar. Eu nunca pratiquei mas acredito e sei que tudo é possivel com o poder da mente 🌌✨💜',
     tags: ['shifting', 'shifttok', 'shifters', 'shiftingbrasil', 'lawofattraction'],
-    videoUrl: 'https://www.tiktok.com/@pedradalu4/video/7294406288534932741',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-starry-night-sky-with-clouds-in-time-lapse-40015-large.mp4',
     likes: 1250,
     comments: 88,
     shares: 45,
@@ -41,7 +41,7 @@ const DEFAULT_VIDEOS: VideoPost[] = [
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
     description: 'A sensação de acordar na sua DR pela primeira vez é inexplicável! Persistam, shifters! 💫✨',
     tags: ['shifttok', 'shifting', 'realidadedesejada', 'dr', 'relatoshifting'],
-    videoUrl: 'https://www.tiktok.com/@shiftxwlivie/video/7621188247258926357',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-woman-meditating-in-nature-41582-large.mp4',
     likes: 2310,
     comments: 145,
     shares: 88,
@@ -53,7 +53,7 @@ const DEFAULT_VIDEOS: VideoPost[] = [
     avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150',
     description: 'Respondendo a perguntas sobre os sintomas físicos ao tentar fazer o shifting. É normal sentir isso? 🧬🌌',
     tags: ['shiftingbrasil', 'sintomasdeshifting', 'shifttok', 'realityshifting'],
-    videoUrl: 'https://www.tiktok.com/@nannalavigne/video/7283133240162962693',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-mystical-fog-in-a-forest-41604-large.mp4',
     likes: 1850,
     comments: 92,
     shares: 34,
@@ -65,7 +65,7 @@ const DEFAULT_VIDEOS: VideoPost[] = [
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
     description: 'Diferença entre sonhos lúcidos, projeção astral e reality shifting. Entenda de uma vez por todas! 🚪💫',
     tags: ['shifting', 'projecaoastral', 'sonholucido', 'astral', 'shifttokbrasil'],
-    videoUrl: 'https://www.tiktok.com/@enjoyagencia1/video/7282332734704389381',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-forest-stream-under-beams-of-sunlight-41611-large.mp4',
     likes: 3100,
     comments: 201,
     shares: 95,
@@ -77,7 +77,7 @@ const DEFAULT_VIDEOS: VideoPost[] = [
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
     description: 'A física quântica e a teoria dos multiuniversos explicando a realidade do shifting! 🌌🧬',
     tags: ['shiftingrealities', 'multiverso', 'fisicaquantica', 'shifttok'],
-    videoUrl: 'https://www.tiktok.com/@trezeastra/video/7469804698304908550',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-abstract-laser-lights-background-42171-large.mp4',
     likes: 1420,
     comments: 67,
     shares: 29,
@@ -89,7 +89,7 @@ const DEFAULT_VIDEOS: VideoPost[] = [
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
     description: 'Conectando com a energia cósmica para facilitar a sua viagem para a DR hoje à noite! 🌌🪩',
     tags: ['leidaatracao', 'viagemastral', 'dr', 'shiftingbrasil'],
-    videoUrl: 'https://www.tiktok.com/@veradoastral/video/7385988334029491461',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-waves-crashing-on-rocks-from-above-42194-large.mp4',
     likes: 950,
     comments: 38,
     shares: 18,
@@ -101,7 +101,7 @@ const DEFAULT_VIDEOS: VideoPost[] = [
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
     description: 'Meu diário de shifting: Como foi passar um ano inteiro na DR e retornar para a CR. 📝💫',
     tags: ['relatoshifting', 'dr', 'realityshifting', 'diariodeshifting'],
-    videoUrl: 'https://www.tiktok.com/@shiftxwlivie/video/7649951863751658773',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-hands-holding-the-earth-globe-42203-large.mp4',
     likes: 4200,
     comments: 310,
     shares: 154,
@@ -113,7 +113,7 @@ const DEFAULT_VIDEOS: VideoPost[] = [
     avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150',
     description: 'Técnicas de reprogramação mental para destravar o seu shifting e ir de vez para a DR! 🧠⚡',
     tags: ['reprogramacaomental', 'shifting', 'dr', 'metodosshifting'],
-    videoUrl: 'https://www.tiktok.com/@cria_shifter/video/7596659789770345735',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-northern-lights-in-the-night-sky-40018-large.mp4',
     likes: 2780,
     comments: 119,
     shares: 56,
@@ -125,7 +125,7 @@ const DEFAULT_VIDEOS: VideoPost[] = [
     avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150',
     description: 'Cuidando da sua energia e limpando influências antes de iniciar o processo de transição! 🌌🕯️',
     tags: ['limpezaenergetica', 'shifting', 'espiritualidade', 'shifters'],
-    videoUrl: 'https://www.tiktok.com/@lindih_d_trancaruas/video/7661423770925747477',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-particles-glowing-in-the-dark-42213-large.mp4',
     likes: 1980,
     comments: 87,
     shares: 42,
@@ -137,7 +137,7 @@ const DEFAULT_VIDEOS: VideoPost[] = [
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
     description: 'O método Raven passo a passo atualizado para fazer hoje e obter resultados incríveis! 🌌✨',
     tags: ['metodoraven', 'shiftingrealities', 'dr', 'tutorialshifting'],
-    videoUrl: 'https://www.tiktok.com/@ravenashf444/video/7625788002849115412',
+    videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-nebula-in-outer-space-40011-large.mp4',
     likes: 3050,
     comments: 198,
     shares: 72,
@@ -424,7 +424,7 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
         : 'bg-[#08070d] text-white'
     }`}>
       {/* Header */}
-      <div className="w-full max-w-[600px] flex items-center justify-between mb-6 px-2">
+      <div className="w-full max-w-[700px] flex items-center justify-between mb-6 px-2">
         <div className="flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-purple-400 animate-pulse" />
           <h1 className={`text-xl font-bold ${
@@ -458,7 +458,7 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
       </div>
 
       {/* Main vertical scrolling cards feed */}
-      <div className="w-full max-w-[580px] flex flex-col gap-6 px-1 sm:px-2 pb-32">
+      <div className="w-full max-w-[680px] flex flex-col gap-6 px-1 sm:px-2 pb-32">
         {videos.map((video) => {
           const isLiked = !!likedVideos[video.id];
           const isPlaying = !!playingState[video.id];
