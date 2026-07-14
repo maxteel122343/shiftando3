@@ -222,8 +222,10 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
       if (isSupabaseConfigured) {
         try {
           const dbVideos = await getVideosSupabase();
-          if (dbVideos && dbVideos.length > 0) {
-            setVideos(dbVideos);
+          // Filter out any database records that might still have tiktok URLs
+          const cleanDbVideos = dbVideos.filter(v => !v.videoUrl.includes('tiktok.com'));
+          if (cleanDbVideos && cleanDbVideos.length > 0) {
+            setVideos(cleanDbVideos);
             return;
           }
         } catch (e) {
@@ -236,14 +238,19 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
         try {
           const parsed = JSON.parse(stored);
           if (Array.isArray(parsed) && parsed.length > 0) {
-            setVideos(parsed);
-            return;
+            // Se conter links antigos do TikTok, ignora o cache para forçar a limpeza
+            const hasTikTok = parsed.some(v => v.videoUrl.includes('tiktok.com'));
+            if (!hasTikTok) {
+              setVideos(parsed);
+              return;
+            }
           }
         } catch (e) {
           console.error(e);
         }
       }
       setVideos(DEFAULT_VIDEOS);
+      localStorage.setItem('shifting_videos_v4', JSON.stringify(DEFAULT_VIDEOS));
     };
 
     loadVideos();
@@ -261,7 +268,7 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
 
   const [activeVideoId, setActiveVideoId] = useState<string>(() => videos[0]?.id || '');
   const [likedVideos, setLikedVideos] = useState<Record<string, boolean>>({});
-  const [muted, setMuted] = useState<boolean>(false);
+  const [muted, setMuted] = useState<boolean>(true);
   const [playingState, setPlayingState] = useState<Record<string, boolean>>(() => ({
     [videos[0]?.id || '']: true
   }));
@@ -591,6 +598,7 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
                     ref={(el) => { videoRefs.current[video.id] = el; }}
                     src={video.videoUrl}
                     loop
+                    autoPlay
                     muted={muted || activeVideoId !== video.id}
                     playsInline
                     onPlay={() => setPlayingState(prev => ({ ...prev, [video.id]: true }))}
