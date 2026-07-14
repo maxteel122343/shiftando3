@@ -903,3 +903,109 @@ export async function logCreditRequest(userId: string, amount: number = 5): Prom
     return false;
   }
 }
+
+// ---------------- VIDEOS SYNCHRONIZATION ----------------
+export async function getVideosSupabase(): Promise<any[]> {
+  if (!supabase || !isSupabaseOnline) return [];
+  try {
+    const { data, error } = await supabase.from('videos').select('*').order('created_at', { ascending: false });
+    if (error) {
+      console.warn('Erro ao buscar vídeos do Supabase:', error.message);
+      return [];
+    }
+    return (data || []).map(row => ({
+      id: row.id,
+      username: row.username,
+      avatar: row.avatar,
+      description: row.description,
+      tags: row.tags || [],
+      videoUrl: row.video_url || row.videoUrl || '',
+      likes: Number(row.likes || 0),
+      comments: Number(row.comments || 0),
+      shares: Number(row.shares || 0),
+      music: row.music || '',
+      isTikTok: row.is_tiktok !== undefined ? row.is_tiktok : (row.isTikTok || false),
+      createdAt: row.created_at ? new Date(row.created_at).getTime() : Date.now()
+    }));
+  } catch (err) {
+    console.warn('Falha ao obter vídeos do Supabase:', err);
+    return [];
+  }
+}
+
+export async function createVideoSupabase(video: any): Promise<boolean> {
+  if (!supabase || !isSupabaseOnline) return false;
+  try {
+    const row: any = {
+      id: video.id,
+      username: video.username,
+      avatar: video.avatar,
+      description: video.description,
+      tags: video.tags || [],
+      likes: video.likes || 0,
+      comments: video.comments || 0,
+      shares: video.shares || 0,
+      music: video.music || '',
+    };
+    
+    // First, let's select a single record from videos to inspect column names!
+    const { data: testData } = await supabase.from('videos').select('*').limit(1);
+    const columns = testData && testData.length > 0 ? Object.keys(testData[0]) : [];
+    
+    if (columns.includes('video_url')) {
+      row.video_url = video.videoUrl;
+    } else {
+      row.videoUrl = video.videoUrl;
+    }
+    
+    if (columns.includes('is_tiktok')) {
+      row.is_tiktok = video.isTikTok || false;
+    } else if (columns.includes('isTikTok')) {
+      row.isTikTok = video.isTikTok || false;
+    }
+
+    const { error } = await supabase.from('videos').insert(row);
+    if (error) {
+      console.warn('Erro ao criar vídeo no Supabase (inserção direta):', error.message);
+      
+      // Fallback: try insert with basic fields only
+      const fallbackRow = {
+        id: video.id,
+        username: video.username,
+        avatar: video.avatar,
+        description: video.description,
+        tags: video.tags || [],
+        likes: video.likes || 0,
+        comments: video.comments || 0,
+        shares: video.shares || 0,
+        music: video.music || '',
+        video_url: video.videoUrl,
+        is_tiktok: video.isTikTok || false
+      };
+      const { error: fallbackErr } = await supabase.from('videos').insert(fallbackRow);
+      if (fallbackErr) {
+        console.warn('Falha na inserção de fallback de vídeo no Supabase:', fallbackErr.message);
+        return false;
+      }
+    }
+    return true;
+  } catch (err) {
+    console.warn('Falha ao criar vídeo no Supabase:', err);
+    return false;
+  }
+}
+
+export async function deleteVideoSupabase(id: string): Promise<boolean> {
+  if (!supabase || !isSupabaseOnline) return false;
+  try {
+    const { error } = await supabase.from('videos').delete().eq('id', id);
+    if (error) {
+      console.warn('Erro ao deletar vídeo do Supabase:', error.message);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.warn('Falha ao deletar vídeo do Supabase:', err);
+    return false;
+  }
+}

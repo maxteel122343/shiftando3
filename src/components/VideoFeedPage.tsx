@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Heart, MessageCircle, Share2, Volume2, VolumeX, Play, Pause, Sparkles, AlertCircle, Plus, X, Upload, Film, Music, Trash2 } from 'lucide-react';
 import { User } from '../types';
+import { isConfigured as isSupabaseConfigured, getVideosSupabase, createVideoSupabase, deleteVideoSupabase } from '../utils/supabase';
 
 interface VideoFeedPageProps {
   currentUser: User;
@@ -217,6 +218,38 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
   );
 
   useEffect(() => {
+    const loadVideos = async () => {
+      if (isSupabaseConfigured) {
+        try {
+          const dbVideos = await getVideosSupabase();
+          if (dbVideos && dbVideos.length > 0) {
+            setVideos(dbVideos);
+            return;
+          }
+        } catch (e) {
+          console.warn('Erro ao carregar vídeos do Supabase:', e);
+        }
+      }
+      
+      const stored = localStorage.getItem('shifting_videos_v4');
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setVideos(parsed);
+            return;
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      setVideos(DEFAULT_VIDEOS);
+    };
+
+    loadVideos();
+  }, []);
+
+  useEffect(() => {
     const checkDevDelete = () => {
       setIsDevDeleteEnabled(localStorage.getItem('shifting_dev_delete_enabled') === 'true');
     };
@@ -408,6 +441,10 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
     setActiveVideoId(newVideo.id);
     setPlayingState({ [newVideo.id]: true });
 
+    if (isSupabaseConfigured) {
+      createVideoSupabase(newVideo);
+    }
+
     // Reset Form
     setVideoUrl('');
     setVideoFileUrl(null);
@@ -425,6 +462,10 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
       if (activeVideoId === id && updated.length > 0) {
         setActiveVideoId(updated[0].id);
         setPlayingState({ [updated[0].id]: true });
+      }
+
+      if (isSupabaseConfigured) {
+        deleteVideoSupabase(id);
       }
     }
   };
