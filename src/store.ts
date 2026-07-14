@@ -36,31 +36,30 @@ const INITIAL_POSTS: Post[] = [
   {
     id: 'post_1',
     userId: 'user_1',
-    title: 'Minha primeira mudança rápida (mini-shift) para Hogwarts!',
-    content: "Eu finalmente consegui! Foi apenas por alguns minutos, mas eu pude literalmente sentir o cheiro de pergaminho e livros antigos no salão comunal. Usei o método Raven combinado com um subliminar de 505Hz. Não desistam pessoal, é muito real!",
-    image: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&auto=format&fit=crop&q=60',
-    hashtags: ['#hogwarts', '#minishift', '#metodoraven', '#sucesso'],
-    likes: ['user_2', 'user_3'],
+    title: 'Minha primeira experiência de Shifting para Hogwarts! ⚡🔮',
+    content: 'Gente, eu finalmente consegui! Fiquei lá por cerca de 3 dias (tempo da DR) e a sensação de sentir a lareira do Salão Comunal da Grifinória é simplesmente real demais! Usei o método Raven combinado com meditação guiada antes de dormir. Não desistam, a persistência é o segredo!',
+    hashtags: ['shifting', 'hogwarts', 'dr', 'relato'],
+    likes: ['user_2'],
     comments: [
       {
         id: 'comment_1',
         postId: 'post_1',
         userId: 'user_2',
-        content: "Parabéns!! Estou muito orgulhoso(a). Você colocou no script que sentiria o cheiro dos livros?",
-        createdAt: Date.now() - 3600000,
+        content: 'Que incrível! Parabéns pela conquista! 😍',
+        createdAt: Date.now() - 3600000
       }
     ],
-    createdAt: Date.now() - 7200000,
+    createdAt: Date.now() - 7200000
   },
   {
     id: 'post_2',
     userId: 'user_2',
-    title: 'Dicas para se manter fixado (grounding) na sua DR',
-    content: 'Muitas pessoas voltam para a CR sem querer porque ficam muito animadas ao chegar. Quando você chegar na sua Realidade Desejada, a primeira coisa que deve fazer é tocar em algo. Sinta a textura. Fixar-se nas sensações físicas da sua DR evita que você seja puxado de volta prematuramente.',
-    hashtags: ['#dicas', '#grounding', '#ajuda'],
-    likes: ['user_1'],
+    title: 'Dica de Ouro: Sintomas não são regras! 🧠✨',
+    content: 'Muitos shifters desistem porque acham que precisam sentir sintomas como formigamento ou luzes piscando para conseguir transicionar. A verdade é que os sintomas são apenas seu corpo físico adormecendo. Foquem na intenção e na conexão com a sua DR, não nos sintomas físicos!',
+    hashtags: ['shifting', 'metodos', 'dicas'],
+    likes: ['user_1', 'user_3'],
     comments: [],
-    createdAt: Date.now() - 86400000,
+    createdAt: Date.now() - 14400000
   }
 ];
 
