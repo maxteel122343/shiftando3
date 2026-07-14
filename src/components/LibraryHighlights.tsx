@@ -291,6 +291,7 @@ export function LibraryHighlights({
         onMouseLeave={handleMouseLeave}
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
+        onDragStart={(e) => e.preventDefault()}
         className="flex gap-4 overflow-x-auto pb-4 custom-scrollbar px-2 cursor-grab active:cursor-grabbing select-none"
       >
         {carouselEbooks.map((ebook) => {
