@@ -509,12 +509,12 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
                   <img
                     src={video.videoUrl}
                     alt={video.description}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover scale-[1.4] md:scale-100 transition-transform origin-center"
                   />
                 ) : isEmbed ? (
                   <iframe
                     src={embedInfo.url}
-                    className="w-full h-full border-0 overflow-hidden"
+                    className="w-full h-full border-0 overflow-hidden scale-[1.4] md:scale-100 transition-transform origin-center"
                     scrolling="no"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
@@ -529,7 +529,7 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
                     onPlay={() => setPlayingState(prev => ({ ...prev, [video.id]: true }))}
                     onPause={() => setPlayingState(prev => ({ ...prev, [video.id]: false }))}
                     onClick={() => handleTogglePlay(video.id)}
-                    className="w-full h-full object-cover cursor-pointer"
+                    className="w-full h-full object-cover cursor-pointer scale-[1.4] md:scale-100 transition-transform origin-center"
                   />
                 )}
 

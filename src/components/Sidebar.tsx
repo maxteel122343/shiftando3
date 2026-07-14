@@ -155,12 +155,12 @@ export function Sidebar({ currentUser, onOpenAuth, appTheme, onToggleTheme, post
 
       {/* Mobile Bottom Navigation Bar */}
       <div
-        className="flex lg:hidden fixed bottom-0 left-0 right-0 bg-[#0c0a13]/95 backdrop-blur-lg border-t border-white/5 px-4 pt-2 items-center justify-around z-40 shadow-[0_-5px_20px_rgba(0,0,0,0.5)]"
+        className="flex lg:hidden fixed bottom-0 left-0 right-0 bg-[#0c0a13]/95 backdrop-blur-lg border-t border-white/5 px-2 pt-2 items-center justify-around z-40 shadow-[0_-5px_20px_rgba(0,0,0,0.5)]"
         style={{ paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 8px)' }}
       >
         {/* Feed Link */}
         <NavLink
-          to="/"
+          to="/feed"
           className={({ isActive }) => cn(
             "p-2 rounded-xl transition-all flex flex-col items-center justify-center",
             isActive 
@@ -169,7 +169,21 @@ export function Sidebar({ currentUser, onOpenAuth, appTheme, onToggleTheme, post
           )}
           title="Feed"
         >
-          <Home className="w-6 h-6" strokeWidth={1.5} />
+          <Home className="w-6.5 h-6.5" strokeWidth={1.5} />
+        </NavLink>
+
+        {/* Vídeos Link */}
+        <NavLink
+          to="/"
+          className={({ isActive }) => cn(
+            "p-2 rounded-xl transition-all flex flex-col items-center justify-center",
+            isActive 
+              ? "bg-purple-600/20 text-purple-400 font-bold" 
+              : "text-slate-500 hover:text-slate-300"
+          )}
+          title="Vídeos"
+        >
+          <Play className="w-6.5 h-6.5" strokeWidth={1.5} />
         </NavLink>
 
         {/* Trends Button */}
@@ -183,7 +197,7 @@ export function Sidebar({ currentUser, onOpenAuth, appTheme, onToggleTheme, post
           )}
           title="Assuntos em Alta"
         >
-          <TrendingUp className="w-6 h-6" strokeWidth={1.5} />
+          <TrendingUp className="w-6.5 h-6.5" strokeWidth={1.5} />
         </button>
 
         {/* AI Guide Link */}
@@ -197,7 +211,7 @@ export function Sidebar({ currentUser, onOpenAuth, appTheme, onToggleTheme, post
           )}
           title="AI Guide"
         >
-          <Bot className="w-6 h-6" strokeWidth={1.5} />
+          <Bot className="w-6.5 h-6.5" strokeWidth={1.5} />
         </NavLink>
 
         {/* Saved Link */}
@@ -211,7 +225,7 @@ export function Sidebar({ currentUser, onOpenAuth, appTheme, onToggleTheme, post
           )}
           title="Saved"
         >
-          <Bookmark className="w-6 h-6" strokeWidth={1.5} />
+          <Bookmark className="w-6.5 h-6.5" strokeWidth={1.5} />
         </NavLink>
         
         {/* Auth Button */}
@@ -220,7 +234,7 @@ export function Sidebar({ currentUser, onOpenAuth, appTheme, onToggleTheme, post
           className="p-2 rounded-xl text-slate-500 hover:text-purple-400 transition-colors cursor-pointer flex flex-col items-center justify-center"
           title="Login"
         >
-          <LogIn className="w-6 h-6" strokeWidth={1.5} />
+          <LogIn className="w-6.5 h-6.5" strokeWidth={1.5} />
         </button>
 
         {/* Profile Link */}
