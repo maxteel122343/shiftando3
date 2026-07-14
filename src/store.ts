@@ -79,7 +79,11 @@ export const getStoredData = () => {
     const storedPosts = localStorage.getItem('shifting_posts');
     const storedUsers = localStorage.getItem('shifting_users');
     
-    let posts = storedPosts ? JSON.parse(storedPosts) : INITIAL_POSTS;
+    let posts = storedPosts ? JSON.parse(storedPosts) : [];
+    if (!Array.isArray(posts) || posts.length === 0) {
+      posts = INITIAL_POSTS;
+    }
+    
     let users = storedUsers ? JSON.parse(storedUsers) : [...INITIAL_USERS, CURRENT_USER];
     
     return { posts, users };
