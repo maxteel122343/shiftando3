@@ -773,6 +773,12 @@ export default function App() {
                                window.dispatchEvent(new Event('shifting_devkey_visibility_updated'));
                                setSearchQuery('');
                                showToast(current ? 'Chave de API do Guia agora visível' : 'Chave de API do Guia agora oculta', 'info');
+                             } else if (val === 'devdelete') {
+                               const current = localStorage.getItem('shifting_dev_delete_enabled') === 'true';
+                               localStorage.setItem('shifting_dev_delete_enabled', String(!current));
+                               window.dispatchEvent(new Event('shifting_dev_delete_updated'));
+                               setSearchQuery('');
+                               showToast(!current ? 'Modo Dev: Exclusão de vídeos ATIVADA' : 'Modo Dev: Exclusão de vídeos DESATIVADA', 'info');
                              } else {
                                setSearchQuery(val);
                              }

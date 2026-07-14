@@ -212,6 +212,20 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
     return DEFAULT_VIDEOS;
   });
 
+  const [isDevDeleteEnabled, setIsDevDeleteEnabled] = useState(() => 
+    localStorage.getItem('shifting_dev_delete_enabled') === 'true'
+  );
+
+  useEffect(() => {
+    const checkDevDelete = () => {
+      setIsDevDeleteEnabled(localStorage.getItem('shifting_dev_delete_enabled') === 'true');
+    };
+    window.addEventListener('shifting_dev_delete_updated', checkDevDelete);
+    return () => {
+      window.removeEventListener('shifting_dev_delete_updated', checkDevDelete);
+    };
+  }, []);
+
   const [activeVideoId, setActiveVideoId] = useState<string>(() => videos[0]?.id || '');
   const [likedVideos, setLikedVideos] = useState<Record<string, boolean>>({});
   const [muted, setMuted] = useState<boolean>(false);
@@ -491,7 +505,7 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
                       <span className="text-[9px] text-slate-500 font-medium">Shifter</span>
                     </div>
                   </div>
-                  {isOwnVideo && (
+                  {(isOwnVideo || isDevDeleteEnabled) && (
                     <button 
                       onClick={() => handleDeleteVideo(video.id)}
                       className="p-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-all cursor-pointer animate-fade-in"
@@ -505,6 +519,18 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
 
               {/* Video Player Container (Edge-to-Edge Width) */}
               <div className="relative flex-1 min-h-0 w-full bg-black overflow-hidden shadow-inner flex items-center justify-center">
+                {isTikTok && isDevDeleteEnabled && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteVideo(video.id);
+                    }}
+                    className="absolute top-4 right-4 z-30 p-2 rounded-lg bg-black/60 hover:bg-red-600 border border-white/10 text-white hover:text-white transition-all cursor-pointer shadow-md"
+                    title="Excluir relato em vídeo (Modo Dev)"
+                  >
+                    <Trash2 className="w-3.5 h-3.5 text-red-400" />
+                  </button>
+                )}
                 {isImage ? (
                   <img
                     src={video.videoUrl}
