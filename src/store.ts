@@ -32,7 +32,37 @@ const INITIAL_USERS: User[] = [
   },
 ];
 
-const INITIAL_POSTS: Post[] = [];
+const INITIAL_POSTS: Post[] = [
+  {
+    id: 'post_1',
+    userId: 'user_1',
+    title: 'Minha primeira mudança rápida (mini-shift) para Hogwarts!',
+    content: "Eu finalmente consegui! Foi apenas por alguns minutos, mas eu pude literalmente sentir o cheiro de pergaminho e livros antigos no salão comunal. Usei o método Raven combinado com um subliminar de 505Hz. Não desistam pessoal, é muito real!",
+    image: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&auto=format&fit=crop&q=60',
+    hashtags: ['#hogwarts', '#minishift', '#metodoraven', '#sucesso'],
+    likes: ['user_2', 'user_3'],
+    comments: [
+      {
+        id: 'comment_1',
+        postId: 'post_1',
+        userId: 'user_2',
+        content: "Parabéns!! Estou muito orgulhoso(a). Você colocou no script que sentiria o cheiro dos livros?",
+        createdAt: Date.now() - 3600000,
+      }
+    ],
+    createdAt: Date.now() - 7200000,
+  },
+  {
+    id: 'post_2',
+    userId: 'user_2',
+    title: 'Dicas para se manter fixado (grounding) na sua DR',
+    content: 'Muitas pessoas voltam para a CR sem querer porque ficam muito animadas ao chegar. Quando você chegar na sua Realidade Desejada, a primeira coisa que deve fazer é tocar em algo. Sinta a textura. Fixar-se nas sensações físicas da sua DR evita que você seja puxado de volta prematuramente.',
+    hashtags: ['#dicas', '#grounding', '#ajuda'],
+    likes: ['user_1'],
+    comments: [],
+    createdAt: Date.now() - 86400000,
+  }
+];
 
 // We will simulate a logged in user (the current user of the app)
 export const CURRENT_USER: User = {
