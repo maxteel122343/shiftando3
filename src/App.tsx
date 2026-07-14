@@ -666,7 +666,7 @@ export default function App() {
             : "overflow-y-auto pb-24 lg:pb-8 items-center"
       }`}>
         {!isChatRoute && !isVideosRoute && (
-          <div className="w-full max-w-[640px] mx-auto px-2 sm:px-4 pt-4">
+          <div className="w-full max-w-[800px] mx-auto px-2 sm:px-4 pt-4">
             {isSupabaseConfigured ? (
               <div className="mb-4 flex items-center justify-between p-3 rounded-2xl bg-purple-950/20 border border-purple-500/10 text-xs text-purple-300">
                 <div className="flex items-center gap-2">
@@ -689,8 +689,8 @@ export default function App() {
           isChatRoute
             ? "flex-1 h-full flex flex-col overflow-hidden" 
             : isVideosRoute
-              ? "max-w-[500px] mx-auto"
-              : "max-w-[640px] mx-auto"
+              ? "max-w-[600px] mx-auto"
+              : "max-w-[800px] mx-auto"
         }`}>
             <Routes>
               <Route 

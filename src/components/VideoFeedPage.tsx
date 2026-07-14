@@ -424,7 +424,7 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
         : 'bg-[#08070d] text-white'
     }`}>
       {/* Header */}
-      <div className="w-full max-w-[500px] flex items-center justify-between mb-6 px-2">
+      <div className="w-full max-w-[600px] flex items-center justify-between mb-6 px-2">
         <div className="flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-purple-400 animate-pulse" />
           <h1 className={`text-xl font-bold ${
@@ -458,7 +458,7 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
       </div>
 
       {/* Main vertical scrolling cards feed */}
-      <div className="w-full max-w-[480px] flex flex-col gap-6 px-1 sm:px-2 pb-32">
+      <div className="w-full max-w-[580px] flex flex-col gap-6 px-1 sm:px-2 pb-32">
         {videos.map((video) => {
           const isLiked = !!likedVideos[video.id];
           const isPlaying = !!playingState[video.id];
