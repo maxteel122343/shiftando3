@@ -374,16 +374,26 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
       }
     }
     
-    // Check if we need to sync/add new default videos that aren't in the stored list
+    // Check if we need to sync/add new default videos or update old TikTok URLs to direct mp4 URLs
     const defaultIds = DEFAULT_VIDEOS.map(v => v.id);
     const storedIds = initialVideos.map(v => v.id);
     const missingDefaults = DEFAULT_VIDEOS.filter(v => !storedIds.includes(v.id));
     
-    if (missingDefaults.length > 0) {
+    // Check if any default video in stored list is still using a tiktok.com URL (meaning it needs migration)
+    const hasOldTikTokUrls = initialVideos.some(v => v.id.startsWith('vid_') && v.videoUrl.includes('tiktok.com'));
+    
+    if (missingDefaults.length > 0 || hasOldTikTokUrls) {
       const onlyContainsOldDefaults = initialVideos.every(v => v.id.startsWith('vid_'));
-      if (onlyContainsOldDefaults) {
+      if (onlyContainsOldDefaults || hasOldTikTokUrls) {
         initialVideos = DEFAULT_VIDEOS;
       } else {
+        initialVideos = initialVideos.map(storedVideo => {
+          const match = DEFAULT_VIDEOS.find(d => d.id === storedVideo.id);
+          if (match) {
+            return { ...storedVideo, videoUrl: match.videoUrl };
+          }
+          return storedVideo;
+        });
         initialVideos = [...initialVideos, ...missingDefaults];
       }
       localStorage.setItem('shifting_videos_v4', JSON.stringify(initialVideos));
