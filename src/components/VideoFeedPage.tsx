@@ -624,7 +624,7 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
 
       {/* Main vertical scrolling cards feed */}
       <div className="w-full max-w-[680px] flex flex-col gap-6 px-1 sm:px-2 pb-32">
-        {videos.map((video) => {
+        {videos.map((video, videoIndex) => {
           const isLiked = !!likedVideos[video.id];
           const isPlaying = !!playingState[video.id];
           const isTikTok = video.isTikTok || video.videoUrl.includes('tiktok.com') || video.videoUrl.includes('tikwm.com') || video.id.includes('pedradalu') || video.id.includes('shiftxwlivie') || video.id.includes('nanna') || video.id.includes('enjoy') || video.id.includes('treze') || video.id.includes('veradoastral') || video.id.includes('cria') || video.id.includes('lindih') || video.id.includes('ravena');
@@ -632,6 +632,9 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
           const isEmbed = embedInfo.type !== 'native';
           const isOwnVideo = video.username === (currentUser.username || 'visitante') || video.id === 'vid_test_tiktok';
           const isImage = !!(video.videoUrl.match(/\.(jpeg|jpg|gif|png|webp)/i) || video.videoUrl.includes('unsplash') || video.videoUrl.includes('format=webp') || video.videoUrl.includes('format=jpeg') || video.videoUrl.includes('format=png'));
+
+          const activeIndex = videos.findIndex(v => v.id === activeVideoId);
+          const isNearActive = Math.abs(videoIndex - activeIndex) <= 1;
 
           return (
             <div 
@@ -678,7 +681,7 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
                   />
                 ) : isEmbed ? (
                   <iframe
-                    src={embedInfo.url}
+                    src={isNearActive ? embedInfo.url : ""}
                     className="w-full h-full border-0 overflow-hidden scale-[1.4] md:scale-100 transition-transform origin-center"
                     scrolling="no"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -687,7 +690,8 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
                 ) : (
                   <video
                     ref={(el) => { videoRefs.current[video.id] = el; }}
-                    src={video.videoUrl}
+                    src={isNearActive ? video.videoUrl : ""}
+                    preload={isNearActive ? "auto" : "none"}
                     loop
                     muted={muted || activeVideoId !== video.id}
                     playsInline
