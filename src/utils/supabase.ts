@@ -111,7 +111,6 @@ export async function syncInitialData(users: User[], posts: Post[]) {
     console.log('Dados iniciais sincronizados com sucesso no Supabase!');
   } catch (error: any) {
     console.warn('Erro ao sincronizar dados iniciais (provavelmente tabela não criada):', error?.message || error);
-    isSupabaseOnline = false;
   }
 }
 
@@ -126,7 +125,6 @@ export async function getProfiles(): Promise<User[]> {
     
     if (error) {
       console.warn('Erro ao buscar perfis do Supabase:', error.message);
-      isSupabaseOnline = false;
       throw error;
     }
 
@@ -140,8 +138,7 @@ export async function getProfiles(): Promise<User[]> {
       following: row.following || []
     }));
   } catch (error: any) {
-    console.warn('Erro ao acessar profiles no Supabase, ativando fallback local:', error?.message || error);
-    isSupabaseOnline = false;
+    console.warn('Erro ao acessar profiles no Supabase, usando local:', error?.message || error);
     throw error;
   }
 }
@@ -167,13 +164,11 @@ export async function upsertProfile(user: User): Promise<boolean> {
 
     if (error) {
       console.warn('Erro ao salvar perfil no Supabase:', error.message);
-      isSupabaseOnline = false;
       return false;
     }
     return true;
   } catch (error: any) {
     console.warn('Falha na operação de upsert do profile:', error?.message || error);
-    isSupabaseOnline = false;
     return false;
   }
 }
@@ -202,7 +197,6 @@ export async function getPosts(): Promise<Post[]> {
 
     if (postsError) {
       console.warn('Erro ao buscar posts:', postsError.message);
-      isSupabaseOnline = false;
       throw postsError;
     }
 
@@ -225,8 +219,7 @@ export async function getPosts(): Promise<Post[]> {
       focusOnText: row.focus_on_text !== false
     }));
   } catch (error: any) {
-    console.warn('Erro ao acessar posts no Supabase, ativando fallback local:', error?.message || error);
-    isSupabaseOnline = false;
+    console.warn('Erro ao acessar posts no Supabase:', error?.message || error);
     throw error;
   }
 }
@@ -252,13 +245,11 @@ export async function createPost(post: Post): Promise<boolean> {
 
     if (error) {
       console.warn('Erro ao criar post no Supabase:', error.message);
-      isSupabaseOnline = false;
       return false;
     }
     return true;
   } catch (error: any) {
     console.warn('Falha ao criar post:', error?.message || error);
-    isSupabaseOnline = false;
     return false;
   }
 }
@@ -277,13 +268,11 @@ export async function deletePost(postId: string, userId: string): Promise<boolea
 
     if (error) {
       console.warn('Erro ao excluir post no Supabase:', error.message);
-      isSupabaseOnline = false;
       return false;
     }
     return true;
   } catch (error: any) {
     console.warn('Falha ao excluir post:', error?.message || error);
-    isSupabaseOnline = false;
     return false;
   }
 }
@@ -305,7 +294,6 @@ export async function toggleLike(postId: string, userId: string, isLiking: boole
         
       if (error) {
         console.warn('Erro ao curtir post no Supabase:', error.message);
-        isSupabaseOnline = false;
         return false;
       }
     } else {
@@ -317,14 +305,12 @@ export async function toggleLike(postId: string, userId: string, isLiking: boole
 
       if (error) {
         console.warn('Erro ao descurtir post no Supabase:', error.message);
-        isSupabaseOnline = false;
         return false;
       }
     }
     return true;
   } catch (error: any) {
     console.warn('Falha ao alterar curtida no Supabase:', error?.message || error);
-    isSupabaseOnline = false;
     return false;
   }
 }
@@ -349,13 +335,11 @@ export async function addComment(comment: Comment): Promise<boolean> {
 
     if (error) {
       console.warn('Erro ao adicionar comentário no Supabase:', error.message);
-      isSupabaseOnline = false;
       return false;
     }
     return true;
   } catch (error: any) {
     console.warn('Falha ao adicionar comentário:', error?.message || error);
-    isSupabaseOnline = false;
     return false;
   }
 }
@@ -379,13 +363,11 @@ export async function getChatMessages(): Promise<ChatMessage[]> {
 
     if (error) {
       console.warn('Erro ao buscar mensagens do chat:', error.message);
-      isSupabaseOnline = false;
       throw error;
     }
     return data || [];
   } catch (error: any) {
     console.warn('Erro ao buscar mensagens do chat no Supabase, usando localstorage fallback:', error?.message || error);
-    isSupabaseOnline = false;
     throw error;
   }
 }
@@ -405,13 +387,11 @@ export async function saveChatMessage(msg: ChatMessage): Promise<boolean> {
 
     if (error) {
       console.warn('Erro ao salvar mensagem no Supabase:', error.message);
-      isSupabaseOnline = false;
       return false;
     }
     return true;
   } catch (error: any) {
     console.warn('Falha ao salvar mensagem:', error?.message || error);
-    isSupabaseOnline = false;
     return false;
   }
 }
@@ -427,13 +407,11 @@ export async function clearChatMessages(): Promise<boolean> {
 
     if (error) {
       console.warn('Erro ao limpar mensagens no Supabase:', error.message);
-      isSupabaseOnline = false;
       return false;
     }
     return true;
   } catch (error: any) {
     console.warn('Falha ao limpar mensagens:', error?.message || error);
-    isSupabaseOnline = false;
     return false;
   }
 }
