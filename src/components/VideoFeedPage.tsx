@@ -361,6 +361,39 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
 
   const videoRefs = useRef<Record<string, HTMLVideoElement | null>>({});
   const containerRef = useRef<HTMLDivElement | null>(null);
+  
+  // Initialize videos from localStorage or fallback to DEFAULT_VIDEOS
+  useEffect(() => {
+    const storedVideos = localStorage.getItem('shifting_videos_v4');
+    let initialVideos: VideoPost[] = [];
+    if (storedVideos) {
+      try {
+        initialVideos = JSON.parse(storedVideos);
+      } catch (e) {
+        console.error("Error parsing stored video posts", e);
+      }
+    }
+    
+    // Check if we need to sync/add new default videos that aren't in the stored list
+    const defaultIds = DEFAULT_VIDEOS.map(v => v.id);
+    const storedIds = initialVideos.map(v => v.id);
+    const missingDefaults = DEFAULT_VIDEOS.filter(v => !storedIds.includes(v.id));
+    
+    if (missingDefaults.length > 0) {
+      const onlyContainsOldDefaults = initialVideos.every(v => v.id.startsWith('vid_'));
+      if (onlyContainsOldDefaults) {
+        initialVideos = DEFAULT_VIDEOS;
+      } else {
+        initialVideos = [...initialVideos, ...missingDefaults];
+      }
+      localStorage.setItem('shifting_videos_v4', JSON.stringify(initialVideos));
+    } else if (initialVideos.length === 0) {
+      initialVideos = DEFAULT_VIDEOS;
+      localStorage.setItem('shifting_videos_v4', JSON.stringify(DEFAULT_VIDEOS));
+    }
+    
+    setVideos(initialVideos);
+  }, []);
 
   const [isResolving, setIsResolving] = useState(false);
 
