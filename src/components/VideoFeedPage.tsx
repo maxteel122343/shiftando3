@@ -23,128 +23,8 @@ interface VideoPost {
   isTikTok?: boolean;
 }
 
-const DEFAULT_VIDEOS: VideoPost[] = [
-  {
-    id: 'vid_pedradalu4',
-    username: 'pedradalu4',
-    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150',
-    description: 'O que é shifting e como praticar. Eu nunca pratiquei mas acredito e sei que tudo é possivel com o poder da mente 🌌✨💜',
-    tags: ['shifting', 'shifttok', 'shifters', 'shiftingbrasil', 'lawofattraction'],
-    videoUrl: 'https://placeholdervideo.dev/1080x1920',
-    likes: 1250,
-    comments: 88,
-    shares: 45,
-    music: 'som original - crystal moon 🦞🪩'
-  },
-  {
-    id: 'vid_shiftxwlivie_1',
-    username: 'shiftxwlivie',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-    description: 'A sensação de acordar na sua DR pela primeira vez é inexplicável! Persistam, shifters! 💫✨',
-    tags: ['shifttok', 'shifting', 'realidadedesejada', 'dr', 'relatoshifting'],
-    videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
-    likes: 2310,
-    comments: 145,
-    shares: 88,
-    music: 'Original Sound - Livie Shifter'
-  },
-  {
-    id: 'vid_nannalavigne',
-    username: 'nannalavigne',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150',
-    description: 'Respondendo a perguntas sobre os sintomas físicos ao tentar fazer o shifting. É normal sentir isso? 🧬🌌',
-    tags: ['shiftingbrasil', 'sintomasdeshifting', 'shifttok', 'realityshifting'],
-    videoUrl: 'https://www.w3schools.com/html/movie.mp4',
-    likes: 1850,
-    comments: 92,
-    shares: 34,
-    music: 'Ambient Chill - Nanna'
-  },
-  {
-    id: 'vid_enjoyagencia1',
-    username: 'enjoyagencia1',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
-    description: 'Diferença entre sonhos lúcidos, projeção astral e reality shifting. Entenda de uma vez por todas! 🚪💫',
-    tags: ['shifting', 'projecaoastral', 'sonholucido', 'astral', 'shifttokbrasil'],
-    videoUrl: 'https://placeholdervideo.dev/720x1280',
-    likes: 3100,
-    comments: 201,
-    shares: 95,
-    music: 'Música Esotérica Relaxante'
-  },
-  {
-    id: 'vid_trezeastra',
-    username: 'trezeastra',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-    description: 'A física quântica e a teoria dos multiuniversos explicando a realidade do shifting! 🌌🧬',
-    tags: ['shiftingrealities', 'multiverso', 'fisicaquantica', 'shifttok'],
-    videoUrl: 'https://placeholdervideo.dev/640x1136',
-    likes: 1420,
-    comments: 67,
-    shares: 29,
-    music: 'Cosmic Journey - TrezeAstra'
-  },
-  {
-    id: 'vid_veradoastral',
-    username: 'veradoastral',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
-    description: 'Conectando com a energia cósmica para facilitar a sua viagem para a DR hoje à noite! 🌌🪩',
-    tags: ['leidaatracao', 'viagemastral', 'dr', 'shiftingbrasil'],
-    videoUrl: 'https://placeholdervideo.dev/480x854',
-    likes: 950,
-    comments: 38,
-    shares: 18,
-    music: 'Frequência de Limpeza Astral'
-  },
-  {
-    id: 'vid_shiftxwlivie_2',
-    username: 'shiftxwlivie',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-    description: 'Meu diário de shifting: Como foi passar um ano inteiro na DR e retornar para a CR. 📝💫',
-    tags: ['relatoshifting', 'dr', 'realityshifting', 'diariodeshifting'],
-    videoUrl: 'https://placeholdervideo.dev/1080x1920',
-    likes: 4200,
-    comments: 310,
-    shares: 154,
-    music: 'Memory Lane - LoFi'
-  },
-  {
-    id: 'vid_cria_shifter',
-    username: 'cria_shifter',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150',
-    description: 'Técnicas de reprogramação mental para destravar o seu shifting e ir de vez para a DR! 🧠⚡',
-    tags: ['reprogramacaomental', 'shifting', 'dr', 'metodosshifting'],
-    videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
-    likes: 2780,
-    comments: 119,
-    shares: 56,
-    music: 'Reprogramação Theta 8Hz'
-  },
-  {
-    id: 'vid_lindih',
-    username: 'lindih_d_trancaruas',
-    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150',
-    description: 'Cuidando da sua energia e limpando influências antes de iniciar o processo de transição! 🌌🕯️',
-    tags: ['limpezaenergetica', 'shifting', 'espiritualidade', 'shifters'],
-    videoUrl: 'https://www.w3schools.com/html/movie.mp4',
-    likes: 1980,
-    comments: 87,
-    shares: 42,
-    music: 'Música de Proteção Espiritual'
-  },
-  {
-    id: 'vid_ravenashf444',
-    username: 'ravenashf444',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-    description: 'O método Raven passo a passo atualizado para fazer hoje e obter resultados incríveis! 🌌✨',
-    tags: ['metodoraven', 'shiftingrealities', 'dr', 'tutorialshifting'],
-    videoUrl: 'https://placeholdervideo.dev/720x1280',
-    likes: 3050,
-    comments: 198,
-    shares: 72,
-    music: 'Raven Guided Track - Alpha Waves'
-  }
-];
+// Feed começa vazio — os vídeos reais são carregados do Supabase ou adicionados pelo usuário
+const DEFAULT_VIDEOS: VideoPost[] = [];
 
 function getEmbedUrl(url: string): { type: 'youtube' | 'tiktok' | 'native'; url: string } {
   if (!url) return { type: 'native', url: '' };
@@ -219,38 +99,31 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
 
   useEffect(() => {
     const loadVideos = async () => {
+      // Limpa SEMPRE o cache local antigo para garantir feed limpo
+      localStorage.removeItem('shifting_videos_v4');
+      localStorage.removeItem('shifting_videos_v3');
+      localStorage.removeItem('shifting_videos_v2');
+      localStorage.removeItem('shifting_videos');
+
       if (isSupabaseConfigured) {
         try {
           const dbVideos = await getVideosSupabase();
-          // Filter out any database records that might still have tiktok or mixkit URLs
-          const cleanDbVideos = dbVideos.filter(v => !v.videoUrl.includes('tiktok.com') && !v.videoUrl.includes('mixkit.co'));
-          if (cleanDbVideos && cleanDbVideos.length > 0) {
-            setVideos(cleanDbVideos);
-            return;
-          }
+          // Filtra qualquer URL antiga de tiktok/mixkit/placeholder que possa ter escapado
+          const cleanDbVideos = (dbVideos || []).filter(v =>
+            !v.videoUrl.includes('tiktok.com') &&
+            !v.videoUrl.includes('mixkit.co') &&
+            !v.videoUrl.includes('placeholdervideo.dev') &&
+            !v.videoUrl.includes('w3schools.com')
+          );
+          setVideos(cleanDbVideos);
+          return;
         } catch (e) {
           console.warn('Erro ao carregar vídeos do Supabase:', e);
         }
       }
-      
-      const stored = localStorage.getItem('shifting_videos_v4');
-      if (stored) {
-        try {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            // Se conter links antigos do TikTok ou do Mixkit, ignora o cache para forçar a limpeza
-            const needsMigration = parsed.some(v => v.videoUrl.includes('tiktok.com') || v.videoUrl.includes('mixkit.co'));
-            if (!needsMigration) {
-              setVideos(parsed);
-              return;
-            }
-          }
-        } catch (e) {
-          console.error(e);
-        }
-      }
-      setVideos(DEFAULT_VIDEOS);
-      localStorage.setItem('shifting_videos_v4', JSON.stringify(DEFAULT_VIDEOS));
+
+      // Sem Supabase: feed vazio
+      setVideos([]);
     };
 
     loadVideos();
@@ -406,7 +279,12 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsResolving(true);
-    let finalVideoUrl = videoFileUrl || videoUrl.trim() || 'https://assets.mixkit.co/videos/preview/mixkit-starry-night-sky-with-clouds-in-time-lapse-40015-large.mp4';
+    let finalVideoUrl = videoFileUrl || videoUrl.trim();
+    if (!finalVideoUrl) {
+      alert('Por favor, insira um link de vídeo ou faça upload de um arquivo.');
+      setIsResolving(false);
+      return;
+    }
     
     if (!videoFileUrl && finalVideoUrl.includes('tiktok.com')) {
       try {
@@ -465,17 +343,23 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
     setIsModalOpen(false);
   };
 
-  const handleDeleteVideo = (id: string) => {
+  const handleDeleteVideo = async (id: string) => {
     if (window.confirm("Deseja realmente excluir este relato em vídeo?")) {
       const updated = videos.filter(v => v.id !== id);
       setVideos(updated);
       if (activeVideoId === id && updated.length > 0) {
         setActiveVideoId(updated[0].id);
         setPlayingState({ [updated[0].id]: true });
+      } else if (activeVideoId === id) {
+        setActiveVideoId('');
       }
 
-      if (isSupabaseConfigured) {
-        deleteVideoSupabase(id);
+      // Sempre tenta deletar do banco, independente de configuração local
+      try {
+        await deleteVideoSupabase(id);
+        console.log('Vídeo excluído do banco com sucesso:', id);
+      } catch (e) {
+        console.warn('Erro ao deletar do Supabase:', e);
       }
     }
   };
@@ -524,10 +408,27 @@ export function VideoFeedPage({ currentUser, users, appTheme = 'dark' }: VideoFe
 
       {/* Main vertical scrolling cards feed */}
       <div className="w-full max-w-[680px] flex flex-col gap-6 px-1 sm:px-2 pb-32">
-        {videos.map((video) => {
+        {videos.length === 0 ? (
+          <div className={`flex flex-col items-center justify-center gap-5 py-24 rounded-[28px] border border-dashed ${
+            isLight ? 'border-slate-300 text-slate-500' : 'border-white/10 text-slate-400'
+          }`}>
+            <Film className="w-14 h-14 text-purple-400 opacity-60" />
+            <div className="text-center">
+              <p className="text-lg font-semibold mb-1">Nenhum vídeo ainda</p>
+              <p className="text-sm opacity-70">Seja o primeiro a postar um relato de shifting!</p>
+            </div>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-purple-600 hover:bg-purple-700 transition-all text-white text-sm font-semibold shadow-md shadow-purple-500/25 cursor-pointer"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Postar primeiro vídeo</span>
+            </button>
+          </div>
+        ) : videos.map((video) => {
           const isLiked = !!likedVideos[video.id];
           const isPlaying = !!playingState[video.id];
-          const isTikTok = video.isTikTok || video.videoUrl.includes('tiktok.com') || video.videoUrl.includes('tikwm.com') || video.id.includes('pedradalu') || video.id.includes('shiftxwlivie') || video.id.includes('nanna') || video.id.includes('enjoy') || video.id.includes('treze') || video.id.includes('veradoastral') || video.id.includes('cria') || video.id.includes('lindih') || video.id.includes('ravena');
+          const isTikTok = video.isTikTok || video.videoUrl.includes('tiktok.com') || video.videoUrl.includes('tikwm.com');
           const embedInfo = getEmbedUrl(video.videoUrl);
           const isEmbed = embedInfo.type !== 'native';
           const isOwnVideo = video.username === (currentUser.username || 'visitante') || video.id === 'vid_test_tiktok';
