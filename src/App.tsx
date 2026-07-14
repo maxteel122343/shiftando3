@@ -887,7 +887,7 @@ export default function App() {
             </Routes>
         </div>
       </main>
-      <Link to="/create" className="fixed bottom-[76px] lg:bottom-8 left-1/2 -translate-x-1/2 lg:left-auto lg:translate-x-0 lg:right-8 w-12 h-12 lg:w-14 lg:h-14 bg-purple-600 hover:bg-purple-700 text-white rounded-full flex items-center justify-center shadow-[0_4px_24px_rgba(147,51,234,0.5)] transition-all z-50 lg:shadow-[0_4px_20px_rgba(255,77,109,0.35)]">
+      <Link to="/create" className="fixed bottom-20 left-5 lg:bottom-8 lg:right-8 lg:left-auto w-12 h-12 lg:w-14 lg:h-14 bg-purple-600 hover:bg-purple-700 text-white rounded-full flex items-center justify-center shadow-[0_4px_24px_rgba(147,51,234,0.5)] transition-all z-50 lg:shadow-[0_4px_20px_rgba(255,77,109,0.35)]">
         <Plus className="w-5 h-5 lg:w-6 lg:h-6" />
       </Link>
     </div>
