@@ -13,6 +13,7 @@ import { AIChatGuide } from './components/AIChatGuide';
 import { SavedPage } from './components/SavedPage';
 import { EBookPage } from './components/EBookPage';
 import { RedditUniversePage } from './components/RedditUniversePage';
+import { VideoFeedPage } from './components/VideoFeedPage';
 import { Post, User, Comment } from './types';
 import {
   isConfigured as isSupabaseConfigured,
@@ -54,6 +55,7 @@ function CreatePostWithParams({ currentUser, onPostCreate }: { currentUser: User
 export default function App() {
   const location = useLocation();
   const isChatRoute = location.pathname === '/chat';
+  const isVideosRoute = location.pathname === '/videos' || location.pathname === '/';
   const [posts, setPosts] = useState<Post[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [savedPostIds, setSavedPostIds] = useState<string[]>([]);
@@ -657,11 +659,13 @@ export default function App() {
         onHashtagClick={setSearchQuery}
       />
       <main className={`flex-1 relative flex flex-col ${
-        isChatRoute 
+        isChatRoute
           ? "overflow-hidden" 
-          : "overflow-y-auto pb-24 lg:pb-8 items-center"
+          : isVideosRoute
+            ? "overflow-y-auto snap-y snap-mandatory scroll-smooth items-center"
+            : "overflow-y-auto pb-24 lg:pb-8 items-center"
       }`}>
-        {!isChatRoute && (
+        {!isChatRoute && !isVideosRoute && (
           <div className="w-full max-w-[640px] mx-auto px-2 sm:px-4 pt-4">
             {isSupabaseConfigured ? (
               <div className="mb-4 flex items-center justify-between p-3 rounded-2xl bg-purple-950/20 border border-purple-500/10 text-xs text-purple-300">
@@ -682,13 +686,19 @@ export default function App() {
           </div>
         )}
         <div className={`w-full ${
-          isChatRoute 
+          isChatRoute
             ? "flex-1 h-full flex flex-col overflow-hidden" 
-            : "max-w-[640px] mx-auto"
+            : isVideosRoute
+              ? "max-w-[500px] mx-auto"
+              : "max-w-[640px] mx-auto"
         }`}>
-           <Routes>
+            <Routes>
               <Route 
                 path="/" 
+                element={<VideoFeedPage currentUser={currentUser} users={users} appTheme={appTheme} />} 
+              />
+              <Route 
+                path="/feed" 
                 element={
                   <Feed 
                     posts={posts} 
@@ -857,6 +867,10 @@ export default function App() {
                     )}
                   </div>
                 } 
+              />
+              <Route 
+                path="/videos" 
+                element={<VideoFeedPage currentUser={currentUser} users={users} appTheme={appTheme} />} 
               />
               <Route 
                 path="/ebook/:id" 

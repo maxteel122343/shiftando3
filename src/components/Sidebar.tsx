@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Home, User as UserIcon, Sparkles, Search, Bookmark, LogIn, Sun, Moon, Bot, TrendingUp, Globe } from 'lucide-react';
+import { Home, User as UserIcon, Sparkles, Search, Bookmark, LogIn, Sun, Moon, Bot, TrendingUp, Globe, Play } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { User, Post } from '../types';
 import { cn } from '../utils';
@@ -19,8 +19,9 @@ export function Sidebar({ currentUser, onOpenAuth, appTheme, onToggleTheme, post
   const [isTrendsOpen, setIsTrendsOpen] = useState(false);
 
   const links = [
-    { name: 'Feed', to: '/', icon: Home },
+    { name: 'Feed', to: '/feed', icon: Home },
     { name: 'AI Guide', to: '/chat', icon: Bot },
+    { name: 'Vídeos', to: '/', icon: Play },
     { name: 'Saved', to: '/saved', icon: Bookmark },
   ];
 

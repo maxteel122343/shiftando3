@@ -63,14 +63,14 @@ export function CreatePost({ currentUser, onPostCreate, initialTitle = '', initi
     };
 
     onPostCreate(newPost);
-    navigate('/');
+    navigate('/feed');
   };
 
   return (
     <div className="w-full py-4 px-2.5 sm:py-8 sm:px-4 relative z-10">
       <div className="mb-4 sm:mb-6 px-2 flex flex-col items-start">
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/feed')}
           className="mb-3.5 flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold cursor-pointer transition-all duration-200 bg-white/5 border-white/10 hover:bg-white/10 text-slate-300"
           type="button"
         >
